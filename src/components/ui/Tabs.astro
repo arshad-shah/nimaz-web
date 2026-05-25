@@ -2,19 +2,13 @@
 interface Tab {
   id: string;
   label: string;
-  /** Optional pre-rendered panel HTML. Falls back to a named slot keyed by `id`. */
-  html?: string;
 }
 interface Props {
   tabs: Tab[];
 }
 const { tabs } = Astro.props;
 
-// Astro's compiler cannot resolve a dynamic `slot={...}` name produced inside a
-// `.map()` (the slot-name expression is hoisted out of the loop scope). To stay
-// data-driven, callers may pass pre-rendered `html` per tab; otherwise we fall
-// back to a named slot keyed by the tab id.
-const panelHtml = await Promise.all(tabs.map((t) => t.html ?? Astro.slots.render(t.id)));
+const panels = await Promise.all(tabs.map((t) => Astro.slots.render(t.id)));
 ---
 
 <div class="js-tabs">
@@ -42,7 +36,7 @@ const panelHtml = await Promise.all(tabs.map((t) => t.html ?? Astro.slots.render
           id={`panel-${t.id}`}
           aria-labelledby={`tab-${t.id}`}
           hidden={i !== 0}
-          set:html={panelHtml[i]}
+          set:html={panels[i]}
         />
       ))
     }

@@ -8,20 +8,9 @@ import Button from '../components/ui/Button.astro';
 import Icon from '../components/ui/Icon.astro';
 import { terms } from '../data/terms';
 import { site } from '../data/site';
-import { experimental_AstroContainer as AstroContainer } from 'astro/container';
 import TermsTabPanel from '../components/ui/TermsTabPanel.astro';
 
-// Astro's compiler can't resolve a dynamic `slot={t.id}` produced inside a
-// `.map()` (the slot-name expression is hoisted out of the loop scope), so we
-// render each tab panel to HTML at build time and hand it to Tabs via `html`.
-const container = await AstroContainer.create();
-const tabDefs = await Promise.all(
-  terms.tabs.map(async (t) => ({
-    id: t.id,
-    label: t.title,
-    html: await container.renderToString(TermsTabPanel, { props: { tab: t } }),
-  })),
-);
+const tabDefs = terms.tabs.map((t) => ({ id: t.id, label: t.title }));
 ---
 
 <Base
@@ -36,7 +25,12 @@ const tabDefs = await Promise.all(
       </p>
     </SectionHeading>
 
-    <Tabs tabs={tabDefs} />
+    <Tabs tabs={tabDefs}>
+      <Fragment slot="general"><TermsTabPanel tab={terms.tabs[0]} /></Fragment>
+      <Fragment slot="license"><TermsTabPanel tab={terms.tabs[1]} /></Fragment>
+      <Fragment slot="limitations"><TermsTabPanel tab={terms.tabs[2]} /></Fragment>
+      <Fragment slot="updates"><TermsTabPanel tab={terms.tabs[3]} /></Fragment>
+    </Tabs>
 
     <div class="mt-12 grid gap-4 sm:grid-cols-2">
       <Card>
