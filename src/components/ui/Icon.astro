@@ -1,0 +1,11 @@
+---
+import { Icon as AstroIcon } from 'astro-icon/components';
+interface Props {
+  name: string;
+  size?: number;
+  class?: string;
+}
+const { name, size = 24, class: cls = '' } = Astro.props;
+---
+
+<AstroIcon name={`lucide:${name}`} width={size} height={size} class={cls} />

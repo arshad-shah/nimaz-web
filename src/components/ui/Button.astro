@@ -1,0 +1,21 @@
+---
+interface Props {
+  href?: string;
+  variant?: 'primary' | 'gold' | 'ghost';
+  class?: string;
+  rel?: string;
+  target?: string;
+}
+const { href, variant = 'primary', class: cls = '', ...rest } = Astro.props;
+const base =
+  'inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-colors';
+const variants = {
+  primary: 'bg-[var(--c-primary)] text-[var(--on-primary)] hover:bg-[var(--c-primary-dark)]',
+  gold: 'bg-[var(--c-gold)] text-[#1c1917] hover:bg-[var(--c-gold-light)]',
+  ghost:
+    'border border-[var(--outline)] bg-[var(--surface)] text-[var(--text)] hover:bg-[var(--surface-2)]',
+};
+const Tag = href ? 'a' : 'button';
+---
+
+<Tag href={href} class:list={[base, variants[variant], cls]} {...rest}><slot /></Tag>
