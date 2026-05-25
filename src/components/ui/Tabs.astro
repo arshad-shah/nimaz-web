@@ -20,6 +20,7 @@ const panelHtml = await Promise.all(tabs.map((t) => Astro.slots.render(t.id)));
           id={`tab-${t.id}`}
           aria-controls={`panel-${t.id}`}
           aria-selected={i === 0}
+          tabindex={i === 0 ? 0 : -1}
           class="rounded-full border border-[var(--outline)] px-4 py-2 text-sm font-semibold aria-selected:bg-[var(--c-primary)] aria-selected:text-[var(--on-primary)]"
         >
           {t.label}
@@ -45,20 +46,27 @@ const panelHtml = await Promise.all(tabs.map((t) => Astro.slots.render(t.id)));
   document.querySelectorAll('.js-tabs').forEach((root) => {
     const tabs = [...root.querySelectorAll('[role="tab"]')] as HTMLElement[];
     const panels = [...root.querySelectorAll('[role="tabpanel"]')] as HTMLElement[];
-    function select(i: number) {
-      tabs.forEach((t: HTMLElement, j: number) => t.setAttribute('aria-selected', String(j === i)));
-      panels.forEach((p: HTMLElement, j: number) => ((p as HTMLElement).hidden = j !== i));
+    function select(i: number, focus = false) {
+      tabs.forEach((t, j) => {
+        const active = j === i;
+        t.setAttribute('aria-selected', String(active));
+        t.tabIndex = active ? 0 : -1;
+        if (active && focus) t.focus();
+      });
+      panels.forEach((p, j) => (p.hidden = j !== i));
     }
-    tabs.forEach((t: HTMLElement, i: number) => {
+    tabs.forEach((t, i) => {
       t.addEventListener('click', () => select(i));
       t.addEventListener('keydown', (e: KeyboardEvent) => {
-        if (e.key === 'ArrowRight') {
-          tabs[(i + 1) % tabs.length].focus();
-          select((i + 1) % tabs.length);
-        }
-        if (e.key === 'ArrowLeft') {
-          tabs[(i - 1 + tabs.length) % tabs.length].focus();
-          select((i - 1 + tabs.length) % tabs.length);
+        const last = tabs.length - 1;
+        if (e.key === 'ArrowRight') select(i === last ? 0 : i + 1, true);
+        else if (e.key === 'ArrowLeft') select(i === 0 ? last : i - 1, true);
+        else if (e.key === 'Home') {
+          e.preventDefault();
+          select(0, true);
+        } else if (e.key === 'End') {
+          e.preventDefault();
+          select(last, true);
         }
       });
     });
