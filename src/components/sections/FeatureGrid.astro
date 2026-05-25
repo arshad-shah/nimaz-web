@@ -7,8 +7,10 @@ import { features } from '../../data/features';
 interface Props {
   limit?: number;
   heading?: boolean;
+  cardLevel?: 'h2' | 'h3';
 }
-const { limit, heading = false } = Astro.props;
+const { limit, heading = false, cardLevel = 'h3' } = Astro.props;
+const CardTitle = cardLevel;
 const items = limit ? features.slice(0, limit) : features;
 const tint: Record<string, string> = {
   primary: 'bg-[var(--c-tint-primary-bg)] text-[var(--c-tint-primary-fg)]',
@@ -31,7 +33,7 @@ const tint: Record<string, string> = {
             <span class:list={['mb-4 grid size-11 place-items-center rounded-xl', tint[f.accent]]}>
               <Icon name={f.icon} size={22} />
             </span>
-            <h3 class="text-base font-bold">{f.title}</h3>
+            <CardTitle class="text-base font-bold">{f.title}</CardTitle>
             <p class="mt-1.5 text-sm leading-relaxed text-[var(--muted)]">{f.body}</p>
           </Card>
         ))
