@@ -1,0 +1,20 @@
+---
+import Card from './Card.astro';
+import type { TermsTab } from '../../data/terms';
+interface Props {
+  tab: TermsTab;
+}
+const { tab } = Astro.props;
+---
+
+<p class="mb-5 text-[var(--muted)]">{tab.description}</p>
+<div class="space-y-4">
+  {
+    tab.items.map((it) => (
+      <Card>
+        <h2 class="text-base font-bold">{it.heading}</h2>
+        <p class="mt-1.5 text-sm leading-relaxed text-[var(--muted)]">{it.body}</p>
+      </Card>
+    ))
+  }
+</div>
