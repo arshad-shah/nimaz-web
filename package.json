@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "@astrojs/react": "5.0.5",
+    "@astrojs/sitemap": "3.7.2",
     "@fontsource-variable/outfit": "^5.2.8",
     "@fontsource-variable/plus-jakarta-sans": "^5.2.8",
     "@fontsource/amiri": "^5.2.8",
