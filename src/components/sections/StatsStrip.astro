@@ -1,0 +1,21 @@
+---
+import Container from '../ui/Container.astro';
+import { stats } from '../../data/stats';
+---
+
+<section class="py-6">
+  <Container>
+    <dl class="grid grid-cols-2 gap-4 lg:grid-cols-4">
+      {
+        stats.map((s) => (
+          <div class="rounded-2xl bg-[var(--c-tint-primary-bg)] p-5 text-center">
+            <dt class="font-display text-3xl font-extrabold text-[var(--c-tint-primary-fg)]">
+              {s.value}
+            </dt>
+            <dd class="mt-1 text-xs text-[var(--muted)]">{s.label}</dd>
+          </div>
+        ))
+      }
+    </dl>
+  </Container>
+</section>

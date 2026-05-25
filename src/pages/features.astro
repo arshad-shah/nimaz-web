@@ -1,0 +1,27 @@
+---
+import Base from '../layouts/Base.astro';
+import Container from '../components/ui/Container.astro';
+import SectionHeading from '../components/ui/SectionHeading.astro';
+import FeatureGrid from '../components/sections/FeatureGrid.astro';
+import StatsStrip from '../components/sections/StatsStrip.astro';
+---
+
+<Base
+  title="Features"
+  description="Prayer times, Qibla, Quran with Tafsir, Hadith, calendar and notifications — everything Nimaz offers."
+  path="/features"
+>
+  <Container class="pt-14">
+    <SectionHeading
+      eyebrow="Powerful Islamic companion"
+      title="Everything you need, beautifully made"
+    >
+      <p class="mt-3 max-w-2xl text-[var(--muted)]">
+        Discover the comprehensive set of features that make Nimaz the perfect companion for your
+        spiritual journey.
+      </p>
+    </SectionHeading>
+  </Container>
+  <FeatureGrid />
+  <StatsStrip />
+</Base>

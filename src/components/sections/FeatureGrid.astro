@@ -1,0 +1,41 @@
+---
+import Container from '../ui/Container.astro';
+import Card from '../ui/Card.astro';
+import Icon from '../ui/Icon.astro';
+import SectionHeading from '../ui/SectionHeading.astro';
+import { features } from '../../data/features';
+interface Props {
+  limit?: number;
+  heading?: boolean;
+}
+const { limit, heading = false } = Astro.props;
+const items = limit ? features.slice(0, limit) : features;
+const tint: Record<string, string> = {
+  primary: 'bg-[var(--c-tint-primary-bg)] text-[var(--c-tint-primary-fg)]',
+  gold: 'bg-[var(--c-tint-gold-bg)] text-[var(--c-tint-gold-fg)]',
+  purple: 'bg-[var(--c-tint-purple-bg)] text-[var(--c-tint-purple-fg)]',
+};
+---
+
+<section class="py-14">
+  <Container>
+    {
+      heading && (
+        <SectionHeading eyebrow="Everything in one place" title="A complete Islamic companion" />
+      )
+    }
+    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        items.map((f) => (
+          <Card>
+            <span class:list={['mb-4 grid size-11 place-items-center rounded-xl', tint[f.accent]]}>
+              <Icon name={f.icon} size={22} />
+            </span>
+            <h3 class="text-base font-bold">{f.title}</h3>
+            <p class="mt-1.5 text-sm leading-relaxed text-[var(--muted)]">{f.body}</p>
+          </Card>
+        ))
+      }
+    </div>
+  </Container>
+</section>
