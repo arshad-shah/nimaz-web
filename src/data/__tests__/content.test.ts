@@ -4,7 +4,7 @@ import { features } from '../features';
 import { stats } from '../stats';
 
 const feature = z.object({
-  icon: z.string().min(1),
+  icon: z.enum(['clock', 'compass', 'calendar', 'book-open', 'bell', 'scroll-text']),
   title: z.string().min(1),
   body: z.string().min(40),
   accent: z.enum(['primary', 'gold', 'purple']),
@@ -15,11 +15,12 @@ describe('content data', () => {
     expect(features).toHaveLength(6);
     features.forEach((f) => expect(() => feature.parse(f)).not.toThrow());
   });
-  it('has 4 stats', () => {
-    expect(stats).toHaveLength(4);
-    stats.forEach((s) => {
-      expect(s.value).toBeTruthy();
-      expect(s.label).toBeTruthy();
+  it('has 4 valid stats', () => {
+    const stat = z.object({
+      value: z.string().trim().min(1),
+      label: z.string().trim().min(1),
     });
+    expect(stats).toHaveLength(4);
+    stats.forEach((s) => expect(() => stat.parse(s)).not.toThrow());
   });
 });
