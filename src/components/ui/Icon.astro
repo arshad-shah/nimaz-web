@@ -4,8 +4,18 @@ interface Props {
   name: string;
   size?: number;
   class?: string;
+  /** Decorative by default (hidden from assistive tech). Pass a title + decorative={false} for meaningful icons. */
+  decorative?: boolean;
+  title?: string;
 }
-const { name, size = 24, class: cls = '' } = Astro.props;
+const { name, size = 24, class: cls = '', decorative = true, title } = Astro.props;
 ---
 
-<AstroIcon name={`lucide:${name}`} width={size} height={size} class={cls} />
+<AstroIcon
+  name={`lucide:${name}`}
+  width={size}
+  height={size}
+  class={cls}
+  title={title}
+  aria-hidden={decorative && !title ? 'true' : undefined}
+/>
