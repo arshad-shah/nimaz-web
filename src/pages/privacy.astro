@@ -1,0 +1,42 @@
+---
+import Base from '../layouts/Base.astro';
+import Container from '../components/ui/Container.astro';
+import SectionHeading from '../components/ui/SectionHeading.astro';
+import Accordion from '../components/ui/Accordion.astro';
+import Button from '../components/ui/Button.astro';
+import PrivacyGlance from '../components/sections/PrivacyGlance.astro';
+import { privacy } from '../data/privacy';
+const sectionItems = privacy.sections.map((s) => ({ summary: s.title, body: s.body }));
+const faqItems = privacy.faqs.map((f) => ({ summary: f.q, body: f.a }));
+---
+
+<Base
+  title="Privacy Policy"
+  description="How Nimaz protects your data while providing essential Islamic services."
+  path="/privacy"
+>
+  <Container class="py-14">
+    <SectionHeading as="h1" eyebrow={`Last updated · ${privacy.updated}`} title="Privacy Policy">
+      <p class="mt-3 max-w-2xl text-[var(--muted)]">
+        Your privacy matters to us. Learn how Nimaz protects your data while providing essential
+        Islamic services.
+      </p>
+    </SectionHeading>
+    <div class="grid gap-8 lg:grid-cols-[1fr_320px]">
+      <div class="space-y-10">
+        <section>
+          <h2 class="mb-4 text-xl font-bold">Policy details</h2><Accordion items={sectionItems} />
+        </section>
+        <section>
+          <h2 class="mb-4 text-xl font-bold">Frequently asked questions</h2><Accordion
+            items={faqItems}
+          />
+        </section>
+        <Button href="/legal/Privacy-Policy.pdf" variant="ghost"
+          >Download complete policy (PDF)</Button
+        >
+      </div>
+      <aside class="lg:sticky lg:top-24 lg:self-start"><PrivacyGlance /></aside>
+    </div>
+  </Container>
+</Base>
