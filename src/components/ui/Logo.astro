@@ -13,7 +13,7 @@ const { size = 32, withWord = true } = Astro.props;
     class="grid place-items-center overflow-hidden bg-[var(--c-primary)]"
     style={`width:${size}px;height:${size}px;border-radius:22%`}
   >
-    <Image src={fg} alt="Nimaz" width={size} height={size} />
+    <Image src={fg} alt={withWord ? '' : 'Nimaz'} width={size} height={size} />
   </span>
   {withWord && <span class="font-display text-lg font-bold">Nimaz</span>}
 </span>

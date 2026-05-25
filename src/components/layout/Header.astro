@@ -10,22 +10,59 @@ const path = Astro.url.pathname;
 <header class="sticky top-0 z-50 border-b border-[var(--outline)] bg-[var(--bg)]/90 backdrop-blur">
   <Container class="flex h-16 items-center justify-between">
     <a href="/" aria-label="Nimaz home"><Logo /></a>
-    <nav class="flex items-center gap-5 text-sm font-medium" aria-label="Primary">
-      {
-        site.nav.map((n) => (
-          <a
-            href={n.href}
-            aria-current={path === n.href ? 'page' : undefined}
-            class="hidden text-[var(--muted)] hover:text-[var(--text)] aria-[current=page]:text-[var(--text)] sm:inline"
-          >
-            {n.label}
-          </a>
-        ))
-      }
+    <div class="flex items-center gap-3">
+      <nav class="hidden items-center gap-5 text-sm font-medium sm:flex" aria-label="Primary">
+        {
+          site.nav.map((n) => (
+            <a
+              href={n.href}
+              aria-current={path === n.href ? 'page' : undefined}
+              class="text-[var(--muted)] hover:text-[var(--text)] aria-[current=page]:text-[var(--text)]"
+            >
+              {n.label}
+            </a>
+          ))
+        }
+      </nav>
       <ThemeToggle client:load />
       <Button href={site.playStoreUrl} variant="gold" target="_blank" rel="noopener"
         >Download</Button
       >
-    </nav>
+      <details class="relative sm:hidden">
+        <summary
+          class="grid size-9 cursor-pointer list-none place-items-center rounded-full border border-[var(--outline)] bg-[var(--surface)] text-[var(--muted)]"
+          aria-label="Open menu"
+        >
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            aria-hidden="true"
+          >
+            <path d="M3 6h18M3 12h18M3 18h18"></path>
+          </svg>
+        </summary>
+        <nav
+          aria-label="Mobile"
+          class="absolute right-0 mt-2 w-44 rounded-xl border border-[var(--outline)] bg-[var(--surface)] p-2 shadow-lg"
+        >
+          {
+            site.nav.map((n) => (
+              <a
+                href={n.href}
+                aria-current={path === n.href ? 'page' : undefined}
+                class="block rounded-lg px-3 py-2 text-sm text-[var(--muted)] hover:bg-[var(--surface-2)] hover:text-[var(--text)] aria-[current=page]:text-[var(--text)]"
+              >
+                {n.label}
+              </a>
+            ))
+          }
+        </nav>
+      </details>
+    </div>
   </Container>
 </header>
