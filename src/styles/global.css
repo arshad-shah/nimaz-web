@@ -13,6 +13,8 @@
   --radius-card: 1rem;
 }
 
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
+
 html {
   background: var(--bg);
   color: var(--text);
