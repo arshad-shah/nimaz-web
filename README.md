@@ -30,10 +30,13 @@ All copy and data live in `src/data/*` (`site.ts`, `features.ts`, `stats.ts`, `p
 
 ## Deploy (Cloudflare Pages)
 
-Two options:
+Connect this repository in the Cloudflare Pages dashboard:
 
-1. **Dashboard:** connect this repo in Cloudflare Pages — build command `pnpm build`, output directory `dist`.
-2. **GitHub Actions:** `.github/workflows/deploy.yml` runs `wrangler pages deploy` on pushes to `main`. Add repo secrets `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`.
+- **Build command:** `pnpm build`
+- **Output directory:** `dist`
+- **Node version:** as pinned in `.nvmrc`
+
+Pushes to `main` then build and deploy automatically via Cloudflare's Git integration.
 
 ## License
 

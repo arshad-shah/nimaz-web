@@ -2,5 +2,9 @@ onlyBuiltDependencies:
   - esbuild
   - sharp
 
+allowBuilds:
+  esbuild: true
+  sharp: true
+
 overrides:
   yaml: '>=2.8.3'
