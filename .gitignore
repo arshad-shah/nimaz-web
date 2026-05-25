@@ -1,24 +1,39 @@
-# dependencies
-node_modules/
-.pnpm-store/
-
 # build output
 dist/
+# generated types
 .astro/
+
+# dependencies
+node_modules/
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+
+# environment variables
+.env
+.env.production
+
+# macOS-specific files
+.DS_Store
+
+# jetbrains setting folder
+.idea/
 
 # test artifacts
 test-results/
 playwright-report/
 coverage/
 
-# env / local
-.env
+# env variants
 .env.*
 !.env.example
 
-# editor / os
-.DS_Store
-*.log
+# pnpm store
+.pnpm-store/
 
-# brainstorming companion (if ever nested)
+# brainstorming companion
 .superpowers/
