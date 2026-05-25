@@ -2,6 +2,8 @@ import { describe, it, expect } from 'vitest';
 import { z } from 'zod';
 import { features } from '../features';
 import { stats } from '../stats';
+import { privacy } from '../privacy';
+import { terms } from '../terms';
 
 const feature = z.object({
   icon: z.enum(['clock', 'compass', 'calendar', 'book-open', 'bell', 'scroll-text']),
@@ -22,5 +24,19 @@ describe('content data', () => {
     });
     expect(stats).toHaveLength(4);
     stats.forEach((s) => expect(() => stat.parse(s)).not.toThrow());
+  });
+});
+
+describe('legal data', () => {
+  it('has privacy glance, sections and faqs', () => {
+    expect(privacy.glance.length).toBeGreaterThanOrEqual(5);
+    expect(privacy.sections).toHaveLength(7);
+    expect(privacy.faqs).toHaveLength(7);
+    privacy.sections.forEach((s) => expect(s.body.length).toBeGreaterThan(60));
+  });
+  it('has 4 terms tabs and permitted/prohibited lists', () => {
+    expect(terms.tabs).toHaveLength(4);
+    expect(terms.permitted).toHaveLength(4);
+    expect(terms.prohibited).toHaveLength(4);
   });
 });
