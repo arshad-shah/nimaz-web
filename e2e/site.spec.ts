@@ -21,9 +21,11 @@ test('theme toggle flips and persists', async ({ page }) => {
   expect(await html.getAttribute('data-theme')).toBe(after);
 });
 
-test('download page shows an inline QR svg', async ({ page }) => {
+test('download page shows the real QR code', async ({ page }) => {
   await page.goto('/download');
-  await expect(page.locator('svg').first()).toBeVisible();
+  const qr = page.getByRole('img', { name: /qr code linking to the nimaz google play listing/i });
+  await expect(qr).toBeVisible();
+  await expect(qr.locator('svg')).toBeVisible();
 });
 
 test('download CTA points at the real Play Store listing', async ({ page }) => {
