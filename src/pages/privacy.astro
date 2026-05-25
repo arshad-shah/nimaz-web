@@ -32,8 +32,11 @@ const faqItems = privacy.faqs.map((f) => ({ summary: f.q, body: f.a }));
             items={faqItems}
           />
         </section>
-        <Button href="/legal/Privacy-Policy.pdf" variant="ghost"
-          >Download complete policy (PDF)</Button
+        <Button
+          href="/legal/Privacy-Policy.pdf"
+          variant="ghost"
+          target="_blank"
+          rel="noopener noreferrer">Download complete policy (PDF)</Button
         >
       </div>
       <aside class="lg:sticky lg:top-24 lg:self-start"><PrivacyGlance /></aside>
