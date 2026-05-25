@@ -43,43 +43,43 @@ source repos.
 
 ## 4. Tech stack
 
-| Concern | Choice | Why |
-|---|---|---|
-| Framework | **Astro 5** (static output) | Content-first; ships ~0 JS by default; islands for the one interactive widget; great Lighthouse/SEO. |
-| Interactive islands | **React 19** (`@astrojs/react`) | Live prayer widget + theme toggle only. |
-| Styling | **Tailwind CSS 4** (`@tailwindcss/vite`) | Utility-first; design tokens map cleanly to the app palette. |
-| Icons | **`astro-icon`** + Lucide set (inline SVG at build) | Crisp, tree-shaken, no icon-font/emoji. |
-| Prayer maths | **`adhan`** | Same library the current site and app concepts use. |
-| QR generation | **`qrcode`** (build-time, SVG output) | Real, scannable code from the canonical URL. |
-| Long-form legal | **Astro Content Collections (MDX)** | Privacy/Terms authored as content, type-checked. |
-| Data validation | **Zod** (via content collection schemas + data tests) | Guarantees content integrity. |
-| Fonts | **Fontsource** self-hosted: Outfit, Plus Jakarta Sans, Amiri | Matches app type; privacy (no Google CDN); perf. |
-| Package manager | **pnpm** | Matches current project; fast, strict. |
-| Hosting | **Cloudflare Pages** | Static `dist/`; free; global edge; per the user's choice. |
+| Concern             | Choice                                                       | Why                                                                                                  |
+| ------------------- | ------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------- |
+| Framework           | **Astro 5** (static output)                                  | Content-first; ships ~0 JS by default; islands for the one interactive widget; great Lighthouse/SEO. |
+| Interactive islands | **React 19** (`@astrojs/react`)                              | Live prayer widget + theme toggle only.                                                              |
+| Styling             | **Tailwind CSS 4** (`@tailwindcss/vite`)                     | Utility-first; design tokens map cleanly to the app palette.                                         |
+| Icons               | **`astro-icon`** + Lucide set (inline SVG at build)          | Crisp, tree-shaken, no icon-font/emoji.                                                              |
+| Prayer maths        | **`adhan`**                                                  | Same library the current site and app concepts use.                                                  |
+| QR generation       | **`qrcode`** (build-time, SVG output)                        | Real, scannable code from the canonical URL.                                                         |
+| Long-form legal     | **Astro Content Collections (MDX)**                          | Privacy/Terms authored as content, type-checked.                                                     |
+| Data validation     | **Zod** (via content collection schemas + data tests)        | Guarantees content integrity.                                                                        |
+| Fonts               | **Fontsource** self-hosted: Outfit, Plus Jakarta Sans, Amiri | Matches app type; privacy (no Google CDN); perf.                                                     |
+| Package manager     | **pnpm**                                                     | Matches current project; fast, strict.                                                               |
+| Hosting             | **Cloudflare Pages**                                         | Static `dist/`; free; global edge; per the user's choice.                                            |
 
 ### Testing & quality tooling
 
-| Layer | Tool |
-|---|---|
-| Unit (logic, data, QR URL, theme) | **Vitest** |
-| Component (React islands) | **Vitest + @testing-library/react** |
-| E2E (routes, nav, toggle, widget) | **Playwright** |
-| Accessibility | **@axe-core/playwright** per route |
-| Lint / format / types | **ESLint (flat) + Prettier + `astro check` (tsc)** |
-| Vulnerabilities | **`pnpm audit --audit-level=low`** gate + Dependabot |
+| Layer                             | Tool                                                 |
+| --------------------------------- | ---------------------------------------------------- |
+| Unit (logic, data, QR URL, theme) | **Vitest**                                           |
+| Component (React islands)         | **Vitest + @testing-library/react**                  |
+| E2E (routes, nav, toggle, widget) | **Playwright**                                       |
+| Accessibility                     | **@axe-core/playwright** per route                   |
+| Lint / format / types             | **ESLint (flat) + Prettier + `astro check` (tsc)**   |
+| Vulnerabilities                   | **`pnpm audit --audit-level=low`** gate + Dependabot |
 
 ## 5. Information architecture (multi-page)
 
 Static routes (each its own page, server-rendered to HTML at build):
 
-| Route | Purpose | Key content |
-|---|---|---|
-| `/` | Landing | Hero + **live prayer widget**, feature highlights (3–6), trust stats, download CTA, developer message, footer. |
-| `/features` | Full feature catalog | All 6 features expanded (verbatim copy), stats strip, app screenshots. |
-| `/download` | Conversion | Install steps (1-2-3), **real QR code**, store badge, app metadata (rating, size, OS, developer), "free / no ads / no IAP". |
-| `/privacy` | Privacy Policy | Privacy-at-a-glance, 7 expandable sections, FAQ accordion, PDF download. |
-| `/terms` | Terms & Conditions | 4 tabbed sections, permitted/prohibited cards, effective date, PDF download, contact CTA. |
-| `/404` | Not found | On-brand SVG illustration + links home. |
+| Route       | Purpose              | Key content                                                                                                                 |
+| ----------- | -------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| `/`         | Landing              | Hero + **live prayer widget**, feature highlights (3–6), trust stats, download CTA, developer message, footer.              |
+| `/features` | Full feature catalog | All 6 features expanded (verbatim copy), stats strip, app screenshots.                                                      |
+| `/download` | Conversion           | Install steps (1-2-3), **real QR code**, store badge, app metadata (rating, size, OS, developer), "free / no ads / no IAP". |
+| `/privacy`  | Privacy Policy       | Privacy-at-a-glance, 7 expandable sections, FAQ accordion, PDF download.                                                    |
+| `/terms`    | Terms & Conditions   | 4 tabbed sections, permitted/prohibited cards, effective date, PDF download, contact CTA.                                   |
+| `/404`      | Not found            | On-brand SVG illustration + links home.                                                                                     |
 
 **Global nav:** Home · Features · Download · Privacy · Terms · theme toggle · Download CTA.
 **Footer:** brand + tagline, nav links, feature list, contact (email/website), GitHub link,

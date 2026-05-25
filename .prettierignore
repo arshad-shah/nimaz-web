@@ -1,0 +1,7 @@
+dist
+.astro
+pnpm-lock.yaml
+coverage
+playwright-report
+test-results
+public
