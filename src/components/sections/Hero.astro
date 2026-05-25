@@ -1,0 +1,26 @@
+---
+import Container from '../ui/Container.astro';
+import Button from '../ui/Button.astro';
+import Badge from '../ui/Badge.astro';
+import PrayerWidget from '../islands/PrayerWidget.tsx';
+import { site } from '../../data/site';
+---
+
+<section class="py-16 sm:py-24">
+  <Container class="grid items-center gap-10 lg:grid-cols-[1.1fr_.9fr]">
+    <div>
+      <Badge>Free · No ads · No tracking</Badge>
+      <h1 class="mt-4 text-4xl leading-[1.05] font-extrabold sm:text-5xl">
+        Your whole deen,<br />in one app.
+      </h1>
+      <p class="mt-4 max-w-md text-lg text-[var(--muted)]">{site.description}</p>
+      <div class="mt-6 flex flex-wrap gap-3">
+        <Button href={site.playStoreUrl} target="_blank" rel="noopener"
+          >Get it on Google Play</Button
+        >
+        <Button href="/features" variant="ghost">Explore features</Button>
+      </div>
+    </div>
+    <PrayerWidget client:visible />
+  </Container>
+</section>
