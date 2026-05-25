@@ -16,8 +16,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
-    "gen:assets": "node scripts/gen-assets.mjs",
-    "prebuild": "node scripts/gen-assets.mjs"
+    "gen:assets": "node scripts/gen-assets.mjs"
   },
   "dependencies": {
     "@astrojs/react": "5.0.5",
