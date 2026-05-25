@@ -11,7 +11,7 @@ const { href, variant = 'primary', class: cls = '', type, ...rest } = Astro.prop
 const base =
   'inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-colors';
 const variants = {
-  primary: 'bg-[var(--c-primary)] text-[var(--on-primary)] hover:bg-[var(--c-primary-dark)]',
+  primary: 'bg-[var(--c-primary-strong)] text-[var(--on-primary)] hover:bg-[var(--c-primary-dark)]',
   // gold bg is identical in light/dark; dark stone text reads well on gold in both themes
   gold: 'bg-[var(--c-gold)] text-[#1c1917] hover:bg-[var(--c-gold-light)]',
   ghost:

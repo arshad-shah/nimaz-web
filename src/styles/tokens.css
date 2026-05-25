@@ -1,6 +1,7 @@
 :root {
   /* brand (theme-independent) */
-  --c-primary: #0c7d72; /* AA: white text reads 5.01:1 (was #14b8a6 at 2.49:1) */
+  --c-primary: #14b8a6;
+  --c-primary-strong: #0c7d72; /* darker teal for surfaces with white text (AA contrast) */
   --c-primary-dark: #0f766e;
   --c-gold: #eab308;
   --c-gold-light: #facc15;

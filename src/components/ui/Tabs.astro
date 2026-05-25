@@ -21,7 +21,7 @@ const panels = await Promise.all(tabs.map((t) => Astro.slots.render(t.id)));
           aria-controls={`panel-${t.id}`}
           aria-selected={i === 0}
           tabindex={i === 0 ? 0 : -1}
-          class="rounded-full border border-[var(--outline)] px-4 py-2 text-sm font-semibold aria-selected:bg-[var(--c-primary)] aria-selected:text-[var(--on-primary)]"
+          class="rounded-full border border-[var(--outline)] px-4 py-2 text-sm font-semibold aria-selected:bg-[var(--c-primary-strong)] aria-selected:text-[var(--on-primary)]"
         >
           {t.label}
         </button>
