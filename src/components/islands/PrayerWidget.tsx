@@ -32,7 +32,7 @@ export default function PrayerWidget() {
   const schedule = useMemo(() => getPrayerSchedule({ location, date: now }), [location, now]);
   const next = schedule.next;
 
-  function useMyLocation() {
+  function requestLocation() {
     if (!('geolocation' in navigator)) return setStatus('denied');
     setStatus('locating');
     navigator.geolocation.getCurrentPosition(
@@ -65,13 +65,17 @@ export default function PrayerWidget() {
         {schedule.prayers.map((p) => (
           <li
             key={p.key}
+            aria-current={p.isNext ? 'true' : undefined}
             className="flex items-center justify-between rounded-xl bg-[var(--surface-2)] px-3.5 py-2.5 text-sm"
             style={{
               borderLeft: `3px solid ${p.color}`,
               ...(p.isNext ? { background: 'var(--c-highlight)' } : {}),
             }}
           >
-            <span className="font-semibold">{p.name}</span>
+            <span className="font-semibold">
+              {p.name}
+              {p.isNext && <span className="sr-only"> (next)</span>}
+            </span>
             <span className="font-display font-bold">{fmt(p.time)}</span>
           </li>
         ))}
@@ -80,14 +84,16 @@ export default function PrayerWidget() {
         <p className="text-xs text-[var(--muted)]">{location.label}</p>
         <button
           type="button"
-          onClick={useMyLocation}
-          className="rounded-full border border-[var(--outline)] px-3 py-1.5 text-xs font-semibold hover:bg-[var(--surface-2)]"
+          onClick={requestLocation}
+          disabled={status === 'locating'}
+          aria-busy={status === 'locating'}
+          className="rounded-full border border-[var(--outline)] px-3 py-1.5 text-xs font-semibold hover:bg-[var(--surface-2)] disabled:opacity-60"
         >
           {status === 'locating' ? 'Locating…' : 'Use my location'}
         </button>
       </div>
       {status === 'denied' && (
-        <p className="mt-2 text-xs text-[var(--c-maghrib)]">
+        <p role="alert" className="mt-2 text-xs text-[var(--c-error)]">
           Couldn't get location — showing {location.label}.
         </p>
       )}

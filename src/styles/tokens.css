@@ -25,6 +25,7 @@
   --outline: #e7e5e4;
   --on-primary: #ffffff; /* intentionally theme-independent: white reads on teal in both themes */
   --c-accent-text: #0f766e; /* teal text on page/surface backgrounds */
+  --c-error: #b91c1c;
   --c-highlight: #ccfbf1; /* active/next prayer row background */
   --c-tint-primary-bg: #f0fdfa;
   --c-tint-primary-fg: #0f766e;
@@ -44,6 +45,7 @@
   --outline: #292524;
   --on-primary: #ffffff;
   --c-accent-text: #2dd4bf;
+  --c-error: #f87171;
   --c-highlight: #134e4a;
   --c-tint-primary-bg: #0f2e2b;
   --c-tint-primary-fg: #5eead4;
