@@ -1,0 +1,29 @@
+@import 'tailwindcss';
+@import './tokens.css';
+
+@import '@fontsource-variable/outfit';
+@import '@fontsource-variable/plus-jakarta-sans';
+@import '@fontsource/amiri/400.css';
+@import '@fontsource/amiri/700.css';
+
+@theme {
+  --font-display: 'Outfit Variable', system-ui, sans-serif;
+  --font-sans: 'Plus Jakarta Sans Variable', system-ui, sans-serif;
+  --font-arabic: 'Amiri', serif;
+  --radius-card: 1rem;
+}
+
+html { background: var(--bg); color: var(--text); }
+body { font-family: var(--font-sans); }
+h1, h2, h3, h4 { font-family: var(--font-display); letter-spacing: -0.02em; }
+
+/* respect reduced motion globally */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+}
+
+:where(a, button):focus-visible {
+  outline: 2px solid var(--c-primary);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
