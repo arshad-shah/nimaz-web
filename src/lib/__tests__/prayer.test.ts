@@ -26,4 +26,9 @@ describe('getPrayerSchedule', () => {
     const s = getPrayerSchedule({ location: DEFAULT_LOCATION, date });
     expect(s.prayers.find((p) => p.key === 'fajr')?.color).toBe('var(--c-fajr)');
   });
+
+  it('identifies the correct next prayer for the given date/time', () => {
+    const s = getPrayerSchedule({ location: DEFAULT_LOCATION, date });
+    expect(s.next?.key).toBe('asr');
+  });
 });

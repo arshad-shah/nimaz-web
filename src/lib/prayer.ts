@@ -58,7 +58,7 @@ export function getPrayerSchedule(opts: { location?: GeoLocation; date?: Date })
 
   // nextPrayer() returns lowercase strings matching PrayerKey, or 'none' after Isha.
   // Verified against adhan 4.4.3 Prayer enum: { Fajr: "fajr", Sunrise: "sunrise", ... None: "none" }
-  const nextName = pt.nextPrayer();
+  const nextName = pt.nextPrayer(date);
   const nextKey = order.find((k) => k === nextName) ?? null;
 
   const prayers: PrayerEntry[] = order.map((key) => ({
