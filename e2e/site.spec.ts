@@ -23,7 +23,7 @@ test('theme toggle flips and persists', async ({ page }) => {
 
 test('download page shows the real QR code', async ({ page }) => {
   await page.goto('/download');
-  const qr = page.getByRole('img', { name: /qr code linking to the nimaz google play listing/i });
+  const qr = page.getByRole('img', { name: /qr code linking to the nimaz app on google play/i });
   await expect(qr).toBeVisible();
   await expect(qr.locator('svg')).toBeVisible();
 });
