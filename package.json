@@ -27,6 +27,7 @@
     "adhan": "4.4.3",
     "astro": "^6.3.7",
     "astro-icon": "1.1.5",
+    "qrcode": "1.5.4",
     "react": "19.2.6",
     "react-dom": "19.2.6",
     "tailwindcss": "4.3.0"
@@ -46,6 +47,7 @@
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "16.3.2",
     "@testing-library/user-event": "^14.6.1",
+    "@types/qrcode": "^1.5.6",
     "@types/react": "^19.2.15",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.2.0",
@@ -55,6 +57,7 @@
     "eslint-plugin-astro": "^1.7.0",
     "globals": "^17.6.0",
     "jsdom": "^29.1.1",
+    "jsqr": "^1.4.0",
     "png-to-ico": "^3.0.1",
     "prettier": "^3.8.3",
     "prettier-plugin-astro": "^0.14.1",
