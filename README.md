@@ -1,43 +1,40 @@
-# Astro Starter Kit: Minimal
+# Nimaz Web
 
-```sh
-pnpm create astro@latest -- --template minimal
+The companion website for the [Nimaz](https://play.google.com/store/apps/details?id=com.arshadshah.nimaz) Android app — accurate prayer times, Qibla, Quran and Hadith.
+
+Built with Astro + React islands + Tailwind CSS. Static output, light/dark themes, fully tested, zero known vulnerabilities.
+
+## Develop
+
+```bash
+pnpm install
+pnpm dev          # http://localhost:4321
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Scripts
 
-## 🚀 Project Structure
+| Command                     | Purpose                                                                                                                                       |
+| --------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| `pnpm dev`                  | Dev server                                                                                                                                    |
+| `pnpm build`                | Static build to `dist/`                                                                                                                       |
+| `pnpm preview`              | Preview the production build                                                                                                                  |
+| `pnpm lint` / `pnpm format` | ESLint + Prettier                                                                                                                             |
+| `pnpm check`                | Astro/TypeScript type-check                                                                                                                   |
+| `pnpm test`                 | Vitest unit + component tests                                                                                                                 |
+| `pnpm test:e2e`             | Playwright + axe end-to-end tests                                                                                                             |
+| `pnpm gen:assets`           | Regenerate favicons / OG image from `src/assets/nimaz-icon.png` (run manually after changing the icon; outputs are committed under `public/`) |
 
-Inside of your Astro project, you'll see the following folders and files:
+## Editing content
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+All copy and data live in `src/data/*` (`site.ts`, `features.ts`, `stats.ts`, `privacy.ts`, `terms.ts`). No copy is hardcoded in components. The Play Store URL is defined once in `src/data/site.ts` and drives the buttons, JSON-LD, and the build-time QR code.
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## Deploy (Cloudflare Pages)
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+Two options:
 
-Any static assets, like images, can be placed in the `public/` directory.
+1. **Dashboard:** connect this repo in Cloudflare Pages — build command `pnpm build`, output directory `dist`.
+2. **GitHub Actions:** `.github/workflows/deploy.yml` runs `wrangler pages deploy` on pushes to `main`. Add repo secrets `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`.
 
-## 🧞 Commands
+## License
 
-All commands are run from the root of the project, from a terminal:
-
-| Command                | Action                                           |
-| :--------------------- | :----------------------------------------------- |
-| `pnpm install`         | Installs dependencies                            |
-| `pnpm dev`             | Starts local dev server at `localhost:4321`      |
-| `pnpm build`           | Build your production site to `./dist/`          |
-| `pnpm preview`         | Preview your build locally, before deploying     |
-| `pnpm astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `pnpm astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+MIT © Arshad Shah
