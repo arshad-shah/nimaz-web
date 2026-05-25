@@ -24,9 +24,17 @@ const { title, description, path } = Astro.props;
     <meta name="theme-color" content="#14b8a6" />
     <Seo title={title} description={description} path={path} />
     <script is:inline define:vars={{ key: THEME_STORAGE_KEY }}>
-      const stored = localStorage.getItem(key);
-      const dark = stored ? stored === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
-      document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+      try {
+        const stored = localStorage.getItem(key);
+        const dark = stored
+          ? stored === 'dark'
+          : matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+      } catch {
+        document.documentElement.dataset.theme = matchMedia('(prefers-color-scheme: dark)').matches
+          ? 'dark'
+          : 'light';
+      }
     </script>
   </head>
   <body class="min-h-dvh bg-[var(--bg)] text-[var(--text)]">
