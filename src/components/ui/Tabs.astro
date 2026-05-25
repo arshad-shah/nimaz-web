@@ -1,0 +1,66 @@
+---
+interface Tab {
+  id: string;
+  label: string;
+}
+interface Props {
+  tabs: Tab[];
+}
+const { tabs } = Astro.props;
+
+const panelHtml = await Promise.all(tabs.map((t) => Astro.slots.render(t.id)));
+---
+
+<div class="js-tabs">
+  <div role="tablist" class="flex flex-wrap gap-2">
+    {
+      tabs.map((t, i) => (
+        <button
+          role="tab"
+          id={`tab-${t.id}`}
+          aria-controls={`panel-${t.id}`}
+          aria-selected={i === 0}
+          class="rounded-full border border-[var(--outline)] px-4 py-2 text-sm font-semibold aria-selected:bg-[var(--c-primary)] aria-selected:text-[var(--on-primary)]"
+        >
+          {t.label}
+        </button>
+      ))
+    }
+  </div>
+  <div class="mt-6">
+    {
+      tabs.map((t, i) => (
+        <div
+          role="tabpanel"
+          id={`panel-${t.id}`}
+          aria-labelledby={`tab-${t.id}`}
+          hidden={i !== 0}
+          set:html={panelHtml[i]}
+        />
+      ))
+    }
+  </div>
+</div>
+<script>
+  document.querySelectorAll('.js-tabs').forEach((root) => {
+    const tabs = [...root.querySelectorAll('[role="tab"]')] as HTMLElement[];
+    const panels = [...root.querySelectorAll('[role="tabpanel"]')] as HTMLElement[];
+    function select(i: number) {
+      tabs.forEach((t: HTMLElement, j: number) => t.setAttribute('aria-selected', String(j === i)));
+      panels.forEach((p: HTMLElement, j: number) => ((p as HTMLElement).hidden = j !== i));
+    }
+    tabs.forEach((t: HTMLElement, i: number) => {
+      t.addEventListener('click', () => select(i));
+      t.addEventListener('keydown', (e: KeyboardEvent) => {
+        if (e.key === 'ArrowRight') {
+          tabs[(i + 1) % tabs.length].focus();
+          select((i + 1) % tabs.length);
+        }
+        if (e.key === 'ArrowLeft') {
+          tabs[(i - 1 + tabs.length) % tabs.length].focus();
+          select((i - 1 + tabs.length) % tabs.length);
+        }
+      });
+    });
+  });
+</script>
