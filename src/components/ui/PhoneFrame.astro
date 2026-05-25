@@ -1,0 +1,25 @@
+---
+import { getPrayerSchedule, DEFAULT_LOCATION } from '../../lib/prayer';
+const schedule = getPrayerSchedule({
+  location: DEFAULT_LOCATION,
+  date: new Date('2024-04-01T09:00:00Z'),
+});
+---
+
+<div class="mx-auto w-56 rounded-[2.2rem] bg-[#0c0a09] p-2.5 shadow-2xl">
+  <div class="rounded-[1.7rem] bg-[#fafafa] p-3.5">
+    {
+      schedule.prayers.map((p) => (
+        <div
+          class="mb-1.5 flex items-center justify-between rounded-lg bg-white px-3 py-2 text-xs"
+          style={`border-left:3px solid ${p.color}`}
+        >
+          <span class="font-semibold text-[#1c1917]">{p.name}</span>
+          <span class="font-display font-bold text-[#1c1917]">
+            {p.time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+          </span>
+        </div>
+      ))
+    }
+  </div>
+</div>

@@ -1,0 +1,22 @@
+---
+import { qrSvg } from '../../lib/qr';
+import { PLAY_STORE_URL } from '../../data/site';
+const svg = await qrSvg(PLAY_STORE_URL);
+---
+
+<div
+  class="flex items-center gap-4 rounded-2xl border border-[var(--outline)] bg-[var(--surface)] p-5"
+>
+  <div
+    class="size-28 shrink-0 text-[var(--text)]"
+    role="img"
+    aria-label="QR code linking to the Nimaz Google Play listing"
+    set:html={svg}
+  />
+  <div>
+    <h3 class="font-bold">Scan to download</h3>
+    <p class="mt-1 text-sm text-[var(--muted)]">
+      Scan this code with your Android device to get Nimaz from Google Play.
+    </p>
+  </div>
+</div>

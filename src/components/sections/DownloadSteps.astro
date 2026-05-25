@@ -1,0 +1,33 @@
+---
+const steps = [
+  {
+    n: 1,
+    title: 'Download',
+    body: 'Scan the QR code or tap the button to get Nimaz from Google Play.',
+  },
+  { n: 2, title: 'Install', body: 'Tap "Install". The app is compact and installs quickly.' },
+  {
+    n: 3,
+    title: 'Set up',
+    body: 'Grant location for accurate prayer times and Qibla direction when prompted.',
+  },
+];
+---
+
+<ol class="space-y-5">
+  {
+    steps.map((s) => (
+      <li class="flex gap-4">
+        <span class="font-display grid size-8 shrink-0 place-items-center rounded-full bg-[var(--c-primary)] text-sm font-bold text-[var(--on-primary)]">
+          {s.n}
+        </span>
+        <div>
+          <>
+            <h4 class="font-bold">{s.title}</h4>
+            <p class="mt-0.5 text-sm text-[var(--muted)]">{s.body}</p>
+          </>
+        </div>
+      </li>
+    ))
+  }
+</ol>
