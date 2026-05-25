@@ -1,0 +1,31 @@
+---
+import Container from '../ui/Container.astro';
+import Logo from '../ui/Logo.astro';
+import Button from '../ui/Button.astro';
+import ThemeToggle from '../islands/ThemeToggle.tsx';
+import { site } from '../../data/site';
+const path = Astro.url.pathname;
+---
+
+<header class="sticky top-0 z-50 border-b border-[var(--outline)] bg-[var(--bg)]/90 backdrop-blur">
+  <Container class="flex h-16 items-center justify-between">
+    <a href="/" aria-label="Nimaz home"><Logo /></a>
+    <nav class="flex items-center gap-5 text-sm font-medium" aria-label="Primary">
+      {
+        site.nav.map((n) => (
+          <a
+            href={n.href}
+            aria-current={path === n.href ? 'page' : undefined}
+            class="hidden text-[var(--muted)] hover:text-[var(--text)] aria-[current=page]:text-[var(--text)] sm:inline"
+          >
+            {n.label}
+          </a>
+        ))
+      }
+      <ThemeToggle client:load />
+      <Button href={site.playStoreUrl} variant="gold" target="_blank" rel="noopener"
+        >Download</Button
+      >
+    </nav>
+  </Container>
+</header>

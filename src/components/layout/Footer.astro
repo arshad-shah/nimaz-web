@@ -1,0 +1,70 @@
+---
+import Container from '../ui/Container.astro';
+import Logo from '../ui/Logo.astro';
+import Icon from '../ui/Icon.astro';
+import { site } from '../../data/site';
+const year = new Date().getFullYear();
+---
+
+<footer class="mt-24 border-t border-[var(--outline)] bg-[var(--surface)]">
+  <Container class="grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-4">
+    <div>
+      <Logo />
+      <p class="mt-4 max-w-xs text-sm text-[var(--muted)]">
+        A beautifully designed companion for your daily Islamic practices with accurate prayer times
+        and Qibla direction.
+      </p>
+    </div>
+    <nav aria-label="Footer">
+      <h3 class="mb-3 text-sm font-semibold">Pages</h3>
+      <ul class="space-y-2 text-sm text-[var(--muted)]">
+        <li><a href="/" class="hover:text-[var(--text)]">Home</a></li>
+        {
+          site.nav.map((n) => (
+            <li>
+              <a href={n.href} class="hover:text-[var(--text)]">
+                {n.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+    <div>
+      <h3 class="mb-3 text-sm font-semibold">Features</h3>
+      <ul class="space-y-2 text-sm text-[var(--muted)]">
+        <li>Prayer Times</li><li>Qibla Direction</li><li>Quran Reader</li><li>
+          Adhan Notifications
+        </li>
+      </ul>
+    </div>
+    <div>
+      <h3 class="mb-3 text-sm font-semibold">Contact</h3>
+      <ul class="space-y-2 text-sm text-[var(--muted)]">
+        <li>
+          <a
+            href={`mailto:${site.email}`}
+            class="inline-flex items-center gap-2 hover:text-[var(--text)]"
+            ><Icon name="mail" size={16} />{site.email}</a
+          >
+        </li>
+        <li>
+          <a href={site.website} class="inline-flex items-center gap-2 hover:text-[var(--text)]"
+            ><Icon name="globe" size={16} />arshadshah.com</a
+          >
+        </li>
+        <li>
+          <a href={site.github} class="inline-flex items-center gap-2 hover:text-[var(--text)]"
+            ><Icon name="github" size={16} />GitHub</a
+          >
+        </li>
+      </ul>
+    </div>
+  </Container>
+  <Container
+    class="flex flex-col items-center justify-between gap-2 border-t border-[var(--outline)] py-6 text-sm text-[var(--muted)] sm:flex-row"
+  >
+    <p>© {year} {site.name}. All rights reserved.</p>
+    <p>Made by {site.developer}</p>
+  </Container>
+</footer>
