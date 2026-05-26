@@ -29,7 +29,7 @@ const prayerDots = [
 const art: Record<string, string> = {
   // Accurate Prayer Times — clock dial ringed with the six prayer colours + a "next prayer" card
   clock:
-    `<rect width="320" height="220" rx="24" fill="var(--c-tint-primary-bg)"/>` +
+    `<rect width="320" height="220" fill="var(--c-tint-primary-bg)"/>` +
     `<circle cx="128" cy="110" r="66" fill="${S}" stroke="${TEAL}" stroke-width="6"/>` +
     prayerDots
       .map((c, i) => {
@@ -47,7 +47,7 @@ const art: Record<string, string> = {
 
   // Qibla Direction — compass dial, needle pointing to the Kaaba
   compass:
-    `<rect width="320" height="220" rx="24" fill="var(--c-tint-gold-bg)"/>` +
+    `<rect width="320" height="220" fill="var(--c-tint-gold-bg)"/>` +
     `<circle cx="150" cy="110" r="74" fill="${S}" stroke="${GOLD}" stroke-width="6"/>` +
     `<circle cx="150" cy="110" r="58" fill="none" stroke="${O}" stroke-width="2"/>` +
     `<path d="M150 70 L166 110 L150 100 L134 110 Z" fill="${GOLD}"/>` +
@@ -59,7 +59,7 @@ const art: Record<string, string> = {
 
   // Islamic Calendar — month card with a highlighted day under a crescent + star
   calendar:
-    `<rect width="320" height="220" rx="24" fill="var(--c-tint-purple-bg)"/>` +
+    `<rect width="320" height="220" fill="var(--c-tint-purple-bg)"/>` +
     `<rect x="74" y="52" width="172" height="128" rx="16" fill="${S}" stroke="${O}" stroke-width="2"/>` +
     `<rect x="74" y="52" width="172" height="30" rx="16" fill="${PURPLE}"/>` +
     `<rect x="74" y="68" width="172" height="14" fill="${PURPLE}"/>` +
@@ -79,7 +79,7 @@ const art: Record<string, string> = {
 
   // Quran Reader with Tafsir — open book with text lines and a bookmark ribbon
   'book-open':
-    `<rect width="320" height="220" rx="24" fill="var(--c-tint-primary-bg)"/>` +
+    `<rect width="320" height="220" fill="var(--c-tint-primary-bg)"/>` +
     `<path d="M160 64 C140 52 108 52 88 60 V160 C108 152 140 152 160 162 Z" fill="${S}" stroke="${O}" stroke-width="2"/>` +
     `<path d="M160 64 C180 52 212 52 232 60 V160 C212 152 180 152 160 162 Z" fill="${S}" stroke="${O}" stroke-width="2"/>` +
     `<line x1="160" y1="64" x2="160" y2="162" stroke="${O}" stroke-width="2"/>` +
@@ -94,7 +94,7 @@ const art: Record<string, string> = {
 
   // Adhan Notifications — bell with sound waves and an alert badge
   bell:
-    `<rect width="320" height="220" rx="24" fill="var(--c-tint-gold-bg)"/>` +
+    `<rect width="320" height="220" fill="var(--c-tint-gold-bg)"/>` +
     `<path d="M118 150 a40 40 0 0 1 80 0 Z" fill="${S}" stroke="${GOLD}" stroke-width="6" stroke-linejoin="round"/>` +
     `<rect x="150" y="76" width="16" height="16" rx="8" fill="${GOLD}"/>` +
     `<path d="M150 162 a8 8 0 0 0 16 0 Z" fill="${GOLD}"/>` +
@@ -105,7 +105,7 @@ const art: Record<string, string> = {
 
   // Hadith Collection — stacked book spines with a quotation mark
   'scroll-text':
-    `<rect width="320" height="220" rx="24" fill="var(--c-tint-purple-bg)"/>` +
+    `<rect width="320" height="220" fill="var(--c-tint-purple-bg)"/>` +
     `<rect x="92" y="150" width="160" height="26" rx="7" fill="${PURPLE}"/>` +
     `<rect x="100" y="124" width="144" height="26" rx="7" fill="${S}" stroke="${O}" stroke-width="2"/>` +
     `<rect x="84" y="98" width="176" height="26" rx="7" fill="var(--c-tint-purple-fg)"/>` +
@@ -126,6 +126,6 @@ const inner = art[icon] ?? '';
   viewBox="0 0 320 220"
   role="presentation"
   aria-hidden="true"
-  class:list={['h-auto w-full', cls]}
+  class:list={['block h-auto w-full overflow-hidden', cls]}
   set:html={inner}
 />

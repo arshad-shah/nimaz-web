@@ -45,11 +45,10 @@ test('home page has an FAQ with FAQPage structured data', async ({ page }) => {
   await expect(faq).toBeVisible();
   await faq.locator('summary').click();
   await expect(faq).toHaveAttribute('open', '');
-  const ld = await page
-    .locator('script[type="application/ld+json"]')
-    .filter({ hasText: 'FAQPage' })
-    .textContent();
-  expect(ld && JSON.parse(ld)['@type']).toBe('FAQPage');
+  // <script> text isn't "rendered", so locate all JSON-LD blocks and parse them.
+  const blocks = await page.locator('script[type="application/ld+json"]').allTextContents();
+  const faqLd = blocks.map((b) => JSON.parse(b)).find((o) => o['@type'] === 'FAQPage');
+  expect(faqLd?.mainEntity.length).toBeGreaterThan(0);
 });
 
 test('prayer widget lists six prayers', async ({ page }) => {
