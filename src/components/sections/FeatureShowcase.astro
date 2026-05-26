@@ -1,0 +1,33 @@
+---
+import Container from '../ui/Container.astro';
+import Icon from '../ui/Icon.astro';
+import FeatureArt from './FeatureArt.astro';
+import { features } from '../../data/features';
+
+const tint: Record<string, string> = {
+  primary: 'bg-[var(--c-tint-primary-bg)] text-[var(--c-tint-primary-fg)]',
+  gold: 'bg-[var(--c-tint-gold-bg)] text-[var(--c-tint-gold-fg)]',
+  purple: 'bg-[var(--c-tint-purple-bg)] text-[var(--c-tint-purple-fg)]',
+};
+---
+
+<section class="py-14">
+  <Container class="space-y-12 lg:space-y-20">
+    {
+      features.map((f, i) => (
+        <div class="grid items-center gap-8 lg:grid-cols-2">
+          <div class:list={[i % 2 === 1 && 'lg:order-2']}>
+            <FeatureArt icon={f.icon} class="rounded-2xl border border-[var(--outline)]" />
+          </div>
+          <div>
+            <span class:list={['mb-4 grid size-11 place-items-center rounded-xl', tint[f.accent]]}>
+              <Icon name={f.icon} size={22} />
+            </span>
+            <h2 class="text-2xl font-extrabold">{f.title}</h2>
+            <p class="mt-3 max-w-prose leading-relaxed text-[var(--muted)]">{f.body}</p>
+          </div>
+        </div>
+      ))
+    }
+  </Container>
+</section>

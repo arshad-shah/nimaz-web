@@ -1,0 +1,131 @@
+---
+/**
+ * Flat, gradient-free "spot" illustrations for each feature, keyed by the
+ * Lucide icon name in features.ts. Shapes use theme tokens so the art adapts
+ * to light/dark. Decorative only — the adjacent heading/body carry the meaning.
+ */
+interface Props {
+  icon: string;
+  class?: string;
+}
+const { icon, class: cls = '' } = Astro.props;
+
+const S = 'var(--surface)';
+const O = 'var(--outline)';
+const M = 'var(--muted)';
+const TEAL = 'var(--c-primary)';
+const GOLD = 'var(--c-gold)';
+const PURPLE = 'var(--c-purple)';
+
+const prayerDots = [
+  'var(--c-fajr)',
+  'var(--c-sunrise)',
+  'var(--c-dhuhr)',
+  'var(--c-asr)',
+  'var(--c-maghrib)',
+  'var(--c-isha)',
+];
+
+const art: Record<string, string> = {
+  // Accurate Prayer Times — clock dial ringed with the six prayer colours + a "next prayer" card
+  clock:
+    `<rect width="320" height="220" rx="24" fill="var(--c-tint-primary-bg)"/>` +
+    `<circle cx="128" cy="110" r="66" fill="${S}" stroke="${TEAL}" stroke-width="6"/>` +
+    prayerDots
+      .map((c, i) => {
+        const a = (i / 6) * 2 * Math.PI - Math.PI / 2;
+        return `<circle cx="${(128 + Math.cos(a) * 66).toFixed(1)}" cy="${(110 + Math.sin(a) * 66).toFixed(1)}" r="6.5" fill="${c}"/>`;
+      })
+      .join('') +
+    `<line x1="128" y1="110" x2="128" y2="72" stroke="${TEAL}" stroke-width="6" stroke-linecap="round"/>` +
+    `<line x1="128" y1="110" x2="160" y2="124" stroke="${TEAL}" stroke-width="5" stroke-linecap="round"/>` +
+    `<circle cx="128" cy="110" r="6" fill="${TEAL}"/>` +
+    `<rect x="206" y="86" width="92" height="48" rx="12" fill="${S}" stroke="${O}" stroke-width="2"/>` +
+    `<rect x="218" y="100" width="10" height="20" rx="3" fill="${TEAL}"/>` +
+    `<rect x="238" y="101" width="48" height="7" rx="3.5" fill="${M}"/>` +
+    `<rect x="238" y="115" width="32" height="6" rx="3" fill="${O}"/>`,
+
+  // Qibla Direction — compass dial, needle pointing to the Kaaba
+  compass:
+    `<rect width="320" height="220" rx="24" fill="var(--c-tint-gold-bg)"/>` +
+    `<circle cx="150" cy="110" r="74" fill="${S}" stroke="${GOLD}" stroke-width="6"/>` +
+    `<circle cx="150" cy="110" r="58" fill="none" stroke="${O}" stroke-width="2"/>` +
+    `<path d="M150 70 L166 110 L150 100 L134 110 Z" fill="${GOLD}"/>` +
+    `<path d="M150 150 L134 110 L150 120 L166 110 Z" fill="${M}"/>` +
+    `<circle cx="150" cy="110" r="5" fill="${S}" stroke="${GOLD}" stroke-width="3"/>` +
+    `<rect x="244" y="78" width="44" height="44" rx="8" fill="${GOLD}"/>` +
+    `<rect x="244" y="92" width="44" height="9" fill="var(--c-tint-gold-fg)"/>` +
+    `<rect x="262" y="78" width="8" height="44" fill="var(--c-tint-gold-fg)" opacity="0.55"/>`,
+
+  // Islamic Calendar — month card with a highlighted day under a crescent + star
+  calendar:
+    `<rect width="320" height="220" rx="24" fill="var(--c-tint-purple-bg)"/>` +
+    `<rect x="74" y="52" width="172" height="128" rx="16" fill="${S}" stroke="${O}" stroke-width="2"/>` +
+    `<rect x="74" y="52" width="172" height="30" rx="16" fill="${PURPLE}"/>` +
+    `<rect x="74" y="68" width="172" height="14" fill="${PURPLE}"/>` +
+    [0, 1, 2, 3, 4]
+      .flatMap((r) =>
+        [0, 1, 2, 3, 4, 5].map((c) => {
+          const cx = 94 + c * 28;
+          const cy = 100 + r * 16;
+          const hi = r === 2 && c === 3;
+          return `<circle cx="${cx}" cy="${cy}" r="${hi ? 8 : 4.5}" fill="${hi ? PURPLE : O}"/>`;
+        }),
+      )
+      .join('') +
+    `<circle cx="232" cy="44" r="18" fill="${GOLD}"/>` +
+    `<circle cx="240" cy="40" r="15" fill="var(--c-tint-purple-bg)"/>` +
+    `<path d="M262 30 l3.2 6.5 7.2 1 -5.2 5.1 1.2 7.1 -6.4 -3.4 -6.4 3.4 1.2 -7.1 -5.2 -5.1 7.2 -1 Z" fill="${GOLD}"/>`,
+
+  // Quran Reader with Tafsir — open book with text lines and a bookmark ribbon
+  'book-open':
+    `<rect width="320" height="220" rx="24" fill="var(--c-tint-primary-bg)"/>` +
+    `<path d="M160 64 C140 52 108 52 88 60 V160 C108 152 140 152 160 162 Z" fill="${S}" stroke="${O}" stroke-width="2"/>` +
+    `<path d="M160 64 C180 52 212 52 232 60 V160 C212 152 180 152 160 162 Z" fill="${S}" stroke="${O}" stroke-width="2"/>` +
+    `<line x1="160" y1="64" x2="160" y2="162" stroke="${O}" stroke-width="2"/>` +
+    [0, 1, 2, 3]
+      .map(
+        (i) =>
+          `<rect x="104" y="${78 + i * 18}" width="44" height="6" rx="3" fill="${i === 0 ? TEAL : M}"/>` +
+          `<rect x="172" y="${78 + i * 18}" width="44" height="6" rx="3" fill="${i === 0 ? TEAL : O}"/>`,
+      )
+      .join('') +
+    `<path d="M206 52 h22 v44 l-11 -9 -11 9 Z" fill="${GOLD}"/>`,
+
+  // Adhan Notifications — bell with sound waves and an alert badge
+  bell:
+    `<rect width="320" height="220" rx="24" fill="var(--c-tint-gold-bg)"/>` +
+    `<path d="M118 150 a40 40 0 0 1 80 0 Z" fill="${S}" stroke="${GOLD}" stroke-width="6" stroke-linejoin="round"/>` +
+    `<rect x="150" y="76" width="16" height="16" rx="8" fill="${GOLD}"/>` +
+    `<path d="M150 162 a8 8 0 0 0 16 0 Z" fill="${GOLD}"/>` +
+    `<path d="M212 86 a44 44 0 0 1 0 70" fill="none" stroke="${GOLD}" stroke-width="6" stroke-linecap="round"/>` +
+    `<path d="M232 70 a70 70 0 0 1 0 102" fill="none" stroke="${GOLD}" stroke-width="6" stroke-linecap="round" opacity="0.5"/>` +
+    `<circle cx="196" cy="80" r="16" fill="var(--c-maghrib)"/>` +
+    `<rect x="190" y="71" width="12" height="14" rx="3" fill="${S}"/>`,
+
+  // Hadith Collection — stacked book spines with a quotation mark
+  'scroll-text':
+    `<rect width="320" height="220" rx="24" fill="var(--c-tint-purple-bg)"/>` +
+    `<rect x="92" y="150" width="160" height="26" rx="7" fill="${PURPLE}"/>` +
+    `<rect x="100" y="124" width="144" height="26" rx="7" fill="${S}" stroke="${O}" stroke-width="2"/>` +
+    `<rect x="84" y="98" width="176" height="26" rx="7" fill="var(--c-tint-purple-fg)"/>` +
+    `<rect x="116" y="103" width="6" height="16" rx="3" fill="${S}" opacity="0.7"/>` +
+    `<rect x="120" y="131" width="60" height="6" rx="3" fill="${M}"/>` +
+    `<rect x="124" y="158" width="70" height="6" rx="3" fill="var(--c-tint-purple-bg)"/>` +
+    `<rect x="120" y="44" width="120" height="48" rx="12" fill="${S}" stroke="${O}" stroke-width="2"/>` +
+    `<path d="M140 80 v-12 a8 8 0 0 1 8 -8 h2 v8 h-2 a2 2 0 0 0 -2 2 v2 h6 v8 Z" fill="${PURPLE}"/>` +
+    `<path d="M168 80 v-12 a8 8 0 0 1 8 -8 h2 v8 h-2 a2 2 0 0 0 -2 2 v2 h6 v8 Z" fill="${PURPLE}"/>` +
+    `<rect x="192" y="62" width="34" height="6" rx="3" fill="${M}"/>` +
+    `<rect x="192" y="74" width="24" height="6" rx="3" fill="${O}"/>`,
+};
+
+const inner = art[icon] ?? '';
+---
+
+<svg
+  viewBox="0 0 320 220"
+  role="presentation"
+  aria-hidden="true"
+  class:list={['h-auto w-full', cls]}
+  set:html={inner}
+/>
