@@ -1,0 +1,32 @@
+---
+import Container from '../ui/Container.astro';
+import SectionHeading from '../ui/SectionHeading.astro';
+import Accordion from '../ui/Accordion.astro';
+import type { Faq } from '../../data/faq';
+
+interface Props {
+  items: Faq[];
+  eyebrow?: string;
+  title?: string;
+}
+const { items, eyebrow = 'FAQ', title = 'Frequently asked questions' } = Astro.props;
+const accordionItems = items.map((f) => ({ summary: f.q, body: f.a }));
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: items.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+---
+
+<section class="py-16">
+  <Container class="max-w-3xl">
+    <SectionHeading eyebrow={eyebrow} title={title} />
+    <Accordion items={accordionItems} />
+  </Container>
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+</section>

@@ -38,6 +38,20 @@ test('download CTA points at the real Play Store listing', async ({ page }) => {
   await expect(cta).toHaveAttribute('rel', /noopener/);
 });
 
+test('home page has an FAQ with FAQPage structured data', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.getByRole('heading', { name: /frequently asked questions/i })).toBeVisible();
+  const faq = page.locator('details', { hasText: /is nimaz free/i });
+  await expect(faq).toBeVisible();
+  await faq.locator('summary').click();
+  await expect(faq).toHaveAttribute('open', '');
+  const ld = await page
+    .locator('script[type="application/ld+json"]')
+    .filter({ hasText: 'FAQPage' })
+    .textContent();
+  expect(ld && JSON.parse(ld)['@type']).toBe('FAQPage');
+});
+
 test('prayer widget lists six prayers', async ({ page }) => {
   await page.goto('/');
   const list = page.getByRole('list', { name: /prayer times/i });

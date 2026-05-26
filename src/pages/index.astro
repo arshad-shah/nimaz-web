@@ -4,6 +4,8 @@ import Hero from '../components/sections/Hero.astro';
 import FeatureGrid from '../components/sections/FeatureGrid.astro';
 import StatsStrip from '../components/sections/StatsStrip.astro';
 import DeveloperMessage from '../components/sections/DeveloperMessage.astro';
+import FaqSection from '../components/sections/FaqSection.astro';
+import { faqs } from '../data/faq';
 ---
 
 <Base path="/">
@@ -11,4 +13,5 @@ import DeveloperMessage from '../components/sections/DeveloperMessage.astro';
   <FeatureGrid limit={3} heading />
   <StatsStrip />
   <DeveloperMessage />
+  <FaqSection items={faqs} />
 </Base>
