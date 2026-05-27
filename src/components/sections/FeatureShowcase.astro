@@ -1,0 +1,23 @@
+---
+import Container from '../ui/Container.astro';
+import FeatureArt from './FeatureArt.astro';
+import { features } from '../../data/features';
+---
+
+<section class="py-14">
+  <Container class="space-y-12 lg:space-y-20">
+    {
+      features.map((f, i) => (
+        <div class="grid items-center gap-8 lg:grid-cols-2">
+          <div class:list={[i % 2 === 1 && 'lg:order-2']}>
+            <FeatureArt icon={f.icon} class="rounded-2xl border border-[var(--outline)]" />
+          </div>
+          <div>
+            <h2 class="text-2xl font-extrabold">{f.title}</h2>
+            <p class="mt-3 max-w-prose leading-relaxed text-[var(--muted)]">{f.body}</p>
+          </div>
+        </div>
+      ))
+    }
+  </Container>
+</section>

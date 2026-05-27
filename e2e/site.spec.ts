@@ -23,7 +23,7 @@ test('theme toggle flips and persists', async ({ page }) => {
 
 test('download page shows the real QR code', async ({ page }) => {
   await page.goto('/download');
-  const qr = page.getByRole('img', { name: /qr code linking to the nimaz google play listing/i });
+  const qr = page.getByRole('img', { name: /qr code linking to the nimaz app on google play/i });
   await expect(qr).toBeVisible();
   await expect(qr.locator('svg')).toBeVisible();
 });
@@ -36,6 +36,19 @@ test('download CTA points at the real Play Store listing', async ({ page }) => {
     'https://play.google.com/store/apps/details?id=com.arshadshah.nimaz',
   );
   await expect(cta).toHaveAttribute('rel', /noopener/);
+});
+
+test('home page has an FAQ with FAQPage structured data', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.getByRole('heading', { name: /frequently asked questions/i })).toBeVisible();
+  const faq = page.locator('details', { hasText: /is nimaz free/i });
+  await expect(faq).toBeVisible();
+  await faq.locator('summary').click();
+  await expect(faq).toHaveAttribute('open', '');
+  // <script> text isn't "rendered", so locate all JSON-LD blocks and parse them.
+  const blocks = await page.locator('script[type="application/ld+json"]').allTextContents();
+  const faqLd = blocks.map((b) => JSON.parse(b)).find((o) => o['@type'] === 'FAQPage');
+  expect(faqLd?.mainEntity.length).toBeGreaterThan(0);
 });
 
 test('prayer widget lists six prayers', async ({ page }) => {

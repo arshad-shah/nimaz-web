@@ -4,6 +4,7 @@ import { features } from '../features';
 import { stats } from '../stats';
 import { privacy } from '../privacy';
 import { terms } from '../terms';
+import { faqs } from '../faq';
 
 const feature = z.object({
   icon: z.enum(['clock', 'compass', 'calendar', 'book-open', 'bell', 'scroll-text']),
@@ -38,5 +39,16 @@ describe('legal data', () => {
     expect(terms.tabs).toHaveLength(4);
     expect(terms.permitted).toHaveLength(4);
     expect(terms.prohibited).toHaveLength(4);
+  });
+});
+
+describe('product faq', () => {
+  const faq = z.object({ q: z.string().trim().min(8), a: z.string().trim().min(40) });
+  it('has a non-trivial, well-formed FAQ list', () => {
+    expect(faqs.length).toBeGreaterThanOrEqual(5);
+    faqs.forEach((f) => expect(() => faq.parse(f)).not.toThrow());
+  });
+  it('has unique questions', () => {
+    expect(new Set(faqs.map((f) => f.q)).size).toBe(faqs.length);
   });
 });
