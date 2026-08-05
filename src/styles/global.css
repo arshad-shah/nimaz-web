@@ -47,3 +47,50 @@ h6 {
   outline-offset: 2px;
   border-radius: 4px;
 }
+
+/**
+ * Print / PDF rendering.
+ *
+ * `scripts/gen-legal.mjs` prints /privacy and /terms straight to the PDFs under
+ * public/legal/, so these rules are what those documents look like — and they equally
+ * improve an ordinary Ctrl-P of any page. Site chrome, the theme toggle and the link to
+ * the PDF itself are all noise on paper, so they go.
+ */
+@media print {
+  header,
+  footer,
+  a[href$='.pdf'] {
+    display: none !important;
+  }
+
+  /* Always print the light palette: dark backgrounds waste ink and read poorly. */
+  :root,
+  :root[data-theme='dark'] {
+    --bg: #ffffff;
+    --surface: #ffffff;
+    --text: #000000;
+    --muted: #333333;
+  }
+
+  body {
+    background: #fff !important;
+    color: #000 !important;
+  }
+
+  /* Accordions are <details>; the generator opens them, this keeps them readable. */
+  details {
+    break-inside: avoid;
+    border: 0 !important;
+  }
+
+  /* The expand/collapse chevron means nothing on paper and prints as a stray mark. */
+  details > summary svg {
+    display: none !important;
+  }
+
+  h1,
+  h2,
+  h3 {
+    break-after: avoid;
+  }
+}

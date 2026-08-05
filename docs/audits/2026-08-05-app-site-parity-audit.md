@@ -8,6 +8,29 @@
 `docs/SUBSYSTEMS.md` §0, `docs/ai-ask-with-proof.md`). Site facts come from `src/data/*` and
 `src/pages/*`.
 
+> **Status — P0, P1 and P2 are done.** The findings below are preserved as written, as the
+> record of what was wrong on 2026-08-05. What has since been fixed in this branch:
+>
+> - **§2 corrections.** Stats strip rebuilt on four verifiable numbers; Ma'arif al-Qur'an added
+>   to the Quran copy; the promised analytics opt-out removed from both the policy and the FAQ
+>   and replaced with what the app actually does.
+> - **§3 parity.** The catalogue went from 6 features to 25 across six categories, covering
+>   every pillar listed below — trackers, Tasbih, duas, Zakat, Khatam, Qaida, the names and
+>   prophets, widgets, sync, AR Qibla and Ask with Proof.
+> - **§5 legal.** The policy now discloses Firebase Performance and Cloud Messaging, the AI
+>   feature with Cloudflare and Anthropic named, sync's Bluetooth/Wi-Fi/location use, the
+>   camera, and the third-party adhan audio hosts; the server-side security and
+>   "prayer habits" claims are reframed around on-device storage. Both documents are redated,
+>   and `public/legal/*.pdf` are now **generated from those same files** by `pnpm gen:legal`,
+>   so the download and the page cannot disagree again.
+> - **§6 structure.** `/features` groups by category with anchors, the footer is derived from
+>   the data, and the JSON-LD carries a `featureList`.
+>
+> **Still open:** `site.app.rating` and `size` need checking against the live Play listing
+> (§2); there are still no screenshots (§4, §6); the terms' reverse-engineering clause is
+> untouched, being a licensing decision rather than a copy fix (§5); and P3 — per-feature
+> landing pages, a support page and a changelog — is not started (§7).
+
 ---
 
 ## Contents

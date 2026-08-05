@@ -1,5 +1,6 @@
 ---
 import { site } from '../../data/site';
+import { features } from '../../data/features';
 interface Props {
   title?: string;
   description?: string;
@@ -9,14 +10,20 @@ const { title, description = site.description, path = '' } = Astro.props;
 const fullTitle = title ? `${title} · ${site.name}` : `${site.name} — ${site.tagline}`;
 const canonical = new URL(path, site.url).href;
 const ogImage = new URL('/og.png', site.url).href;
+// `featureList` is derived rather than hand-listed so it cannot drift from the site copy.
+// Deliberately no `aggregateRating`: schema.org requires a `ratingCount` alongside it, and we
+// have no verifiable count — an incomplete rating is worse than none.
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'SoftwareApplication',
   name: site.name,
+  description: site.description,
   applicationCategory: 'LifestyleApplication',
   operatingSystem: 'Android 10+',
   offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
   downloadUrl: site.playStoreUrl,
+  featureList: features.map((f) => f.title),
+  author: { '@type': 'Person', name: site.developer, url: site.website },
 };
 ---
 
