@@ -2,7 +2,9 @@
 
 The companion website for the [Nimaz](https://play.google.com/store/apps/details?id=com.arshadshah.nimaz) Android app — accurate prayer times, Qibla, Quran and Hadith.
 
-Built with Astro + React islands + Tailwind CSS. Static output, light/dark themes, fully tested, zero known vulnerabilities.
+Built with Astro + React islands + Tailwind CSS. Static output, light/dark themes, fully tested.
+
+> **Dependency advisories.** CI runs `pnpm audit` at `--audit-level=critical` and does **not** fail on it — a live advisory feed against a static lockfile turns unrelated PRs red on its own. Findings are still printed on every run. There is a real backlog behind that decision (an Astro 6 → 7 major, `sharp` ≥ 0.35, an esbuild override); see the note in `.github/workflows/ci.yml`.
 
 ## Develop
 
