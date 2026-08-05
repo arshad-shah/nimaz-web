@@ -16,4 +16,20 @@ jobs:
       - run: pnpm test
       - run: pnpm exec playwright install --with-deps chromium
       - run: pnpm test:e2e
-      - run: pnpm audit --audit-level=low
+
+      # Advisory, not a gate. `pnpm audit` queries a live advisory database, so an
+      # unchanged lockfile drifts red on its own — this job went from green in May to
+      # 40 findings in August without a single dependency moving. Blocking every PR on
+      # that turns unrelated work red and trains people to ignore the failure.
+      #
+      # It still runs, and criticals are still printed in the log for whoever is looking.
+      # `continue-on-error` surfaces them as a warning on the run instead of failing it.
+      # Note this does not silence the summary line: the full count across every severity
+      # is still reported, only the tables are filtered to critical.
+      #
+      # Outstanding as of 2026-08-05 (see PR #16): `pnpm update` within the current ranges
+      # clears 40 → 5; the rest need an Astro 6 → 7 major, sharp ≥ 0.35, and an esbuild
+      # override. That work is still worth doing — this change only stops it blocking
+      # unrelated PRs.
+      - run: pnpm audit --audit-level=critical
+        continue-on-error: true

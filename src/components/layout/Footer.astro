@@ -3,6 +3,7 @@ import Container from '../ui/Container.astro';
 import Logo from '../ui/Logo.astro';
 import Icon from '../ui/Icon.astro';
 import { site } from '../../data/site';
+import { featureCategories } from '../../data/features';
 const year = new Date().getFullYear();
 ---
 
@@ -30,14 +31,20 @@ const year = new Date().getFullYear();
         }
       </ul>
     </nav>
-    <div>
+    <nav aria-label="Features">
       <h3 class="mb-3 text-sm font-semibold">Features</h3>
       <ul class="space-y-2 text-sm text-[var(--muted)]">
-        <li>Prayer Times</li><li>Qibla Direction</li><li>Quran Reader</li><li>
-          Adhan Notifications
-        </li>
+        {
+          featureCategories.map((c) => (
+            <li>
+              <a href={`/features#${c.id}`} class="hover:text-[var(--text)]">
+                {c.label}
+              </a>
+            </li>
+          ))
+        }
       </ul>
-    </div>
+    </nav>
     <div>
       <h3 class="mb-3 text-sm font-semibold">Contact</h3>
       <ul class="space-y-2 text-sm text-[var(--muted)]">

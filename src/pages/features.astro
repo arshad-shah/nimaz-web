@@ -4,11 +4,12 @@ import Container from '../components/ui/Container.astro';
 import SectionHeading from '../components/ui/SectionHeading.astro';
 import FeatureShowcase from '../components/sections/FeatureShowcase.astro';
 import StatsStrip from '../components/sections/StatsStrip.astro';
+import { featureCategories, features } from '../data/features';
 ---
 
 <Base
   title="Features"
-  description="Prayer times, Qibla, Quran with Tafsir, Hadith, calendar and notifications — everything Nimaz offers."
+  description="Prayer times and adhan, Qibla with AR, the Quran with tafsir and 13 reciters, six hadith collections, duas, tasbih, prayer and fasting trackers, khatam plans, zakat, the Hijri calendar and six home-screen widgets."
   path="/features"
 >
   <Container class="pt-14">
@@ -18,9 +19,21 @@ import StatsStrip from '../components/sections/StatsStrip.astro';
       title="Everything you need, beautifully made"
     >
       <p class="mt-3 max-w-2xl text-[var(--muted)]">
-        Discover the comprehensive set of features that make Nimaz the perfect companion for your
-        spiritual journey.
+        {features.length} features across six areas of practice — and all of them work offline, on a phone
+        that never asks you to sign in.
       </p>
+      <nav aria-label="Feature categories" class="mt-6 flex flex-wrap gap-2">
+        {
+          featureCategories.map((c) => (
+            <a
+              href={`#${c.id}`}
+              class="rounded-full border border-[var(--outline)] px-3.5 py-1.5 text-sm text-[var(--muted)] transition-colors hover:border-[var(--c-primary)] hover:text-[var(--text)]"
+            >
+              {c.label}
+            </a>
+          ))
+        }
+      </nav>
     </SectionHeading>
   </Container>
   <FeatureShowcase />

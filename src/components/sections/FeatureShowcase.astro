@@ -1,23 +1,70 @@
 ---
+/**
+ * The `/features` body: one section per category from `features.ts`.
+ *
+ * Within a category, the features that have bespoke art (`illustrated`) lead with the large
+ * alternating two-column treatment, and the rest follow as a card grid. That keeps the six
+ * hand-drawn illustrations doing their job while letting the catalogue grow past them —
+ * `FeatureArt` renders an empty SVG for an icon it has no art for, so every feature cannot
+ * have the big treatment.
+ *
+ * Each section carries its category id as an anchor, which the footer links to.
+ */
 import Container from '../ui/Container.astro';
+import Card from '../ui/Card.astro';
+import Icon from '../ui/Icon.astro';
 import FeatureArt from './FeatureArt.astro';
-import { features } from '../../data/features';
+import { featureCategories, featuresIn } from '../../data/features';
+
+const tint: Record<string, string> = {
+  primary: 'bg-[var(--c-tint-primary-bg)] text-[var(--c-tint-primary-fg)]',
+  gold: 'bg-[var(--c-tint-gold-bg)] text-[var(--c-tint-gold-fg)]',
+  purple: 'bg-[var(--c-tint-purple-bg)] text-[var(--c-tint-purple-fg)]',
+};
 ---
 
-<section class="py-14">
-  <Container class="space-y-12 lg:space-y-20">
-    {
-      features.map((f, i) => (
-        <div class="grid items-center gap-8 lg:grid-cols-2">
-          <div class:list={[i % 2 === 1 && 'lg:order-2']}>
-            <FeatureArt icon={f.icon} class="rounded-2xl border border-[var(--outline)]" />
-          </div>
+{
+  featureCategories.map((cat) => {
+    const items = featuresIn(cat.id);
+    const lead = items.filter((f) => f.illustrated);
+    const rest = items.filter((f) => !f.illustrated);
+    return (
+      <section id={cat.id} class="scroll-mt-24 py-12">
+        <Container class="space-y-10 lg:space-y-16">
           <div>
-            <h2 class="text-2xl font-extrabold">{f.title}</h2>
-            <p class="mt-3 max-w-prose leading-relaxed text-[var(--muted)]">{f.body}</p>
+            <h2 class="font-display text-3xl font-extrabold">{cat.label}</h2>
+            <p class="mt-2 max-w-2xl text-[var(--muted)]">{cat.blurb}</p>
           </div>
-        </div>
-      ))
-    }
-  </Container>
-</section>
+
+          {lead.map((f, i) => (
+            <div class="grid items-center gap-8 lg:grid-cols-2">
+              <div class:list={[i % 2 === 1 && 'lg:order-2']}>
+                <FeatureArt icon={f.icon} class="rounded-2xl border border-[var(--outline)]" />
+              </div>
+              <div>
+                <h3 class="text-2xl font-extrabold">{f.title}</h3>
+                <p class="mt-3 max-w-prose leading-relaxed text-[var(--muted)]">{f.body}</p>
+              </div>
+            </div>
+          ))}
+
+          {rest.length > 0 && (
+            <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {rest.map((f) => (
+                <Card>
+                  <span
+                    class:list={['mb-4 grid size-11 place-items-center rounded-xl', tint[f.accent]]}
+                  >
+                    <Icon name={f.icon} size={22} />
+                  </span>
+                  <h3 class="text-base font-bold">{f.title}</h3>
+                  <p class="mt-1.5 text-sm leading-relaxed text-[var(--muted)]">{f.body}</p>
+                </Card>
+              ))}
+            </div>
+          )}
+        </Container>
+      </section>
+    );
+  })
+}

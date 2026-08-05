@@ -8,10 +8,13 @@ interface Props {
   limit?: number;
   heading?: boolean;
   cardLevel?: 'h2' | 'h3';
+  /** Show a "see all N" link when `limit` hides some of the catalogue. */
+  more?: boolean;
 }
-const { limit, heading = false, cardLevel = 'h3' } = Astro.props;
+const { limit, heading = false, cardLevel = 'h3', more = false } = Astro.props;
 const CardTitle = cardLevel;
 const items = limit ? features.slice(0, limit) : features;
+const hidden = features.length - items.length;
 const tint: Record<string, string> = {
   primary: 'bg-[var(--c-tint-primary-bg)] text-[var(--c-tint-primary-fg)]',
   gold: 'bg-[var(--c-tint-gold-bg)] text-[var(--c-tint-gold-fg)]',
@@ -39,5 +42,18 @@ const tint: Record<string, string> = {
         ))
       }
     </div>
+    {
+      more && hidden > 0 && (
+        <p class="mt-8 text-center text-sm text-[var(--muted)]">
+          {/* --c-tint-primary-fg, not --c-primary: the brand teal is only 2.38:1 on the page
+              background and fails WCAG AA at this size. This token is the darker/lighter
+              per-theme pair meant for text. */}
+          <a href="/features" class="font-semibold text-[var(--c-tint-primary-fg)] hover:underline">
+            See all {features.length} features
+          </a>{' '}
+          — trackers, tasbih, duas, zakat, khatam plans, widgets and more.
+        </p>
+      )
+    }
   </Container>
 </section>

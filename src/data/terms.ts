@@ -9,8 +9,23 @@ export interface TermsTab {
   items: TermsItem[];
 }
 
+/**
+ * The terms of service.
+ *
+ * Revised August 2026 alongside `privacy.ts`, to cover behaviour the March 2024 text predated:
+ * the optional AI search (and that its answers are not religious rulings), phone-to-phone
+ * sync, and the licensing of the Quran, hadith and dua content the app ships.
+ *
+ * Deliberately left alone: the "Intellectual Property" and "Restrictions" clauses, which
+ * forbid reverse engineering while the app's source sits on GitHub. That tension is real —
+ * see `docs/audits/2026-08-05-app-site-parity-audit.md` §5 — but resolving it is a licensing
+ * decision for the developer to make, not a copy fix.
+ *
+ * Keep `effective` in step with any edit here, and regenerate
+ * `public/legal/Terms-and-Conditions.pdf`.
+ */
 export const terms = {
-  effective: 'March 1, 2024',
+  effective: 'August 5, 2026',
   tabs: [
     {
       id: 'general',
@@ -33,6 +48,14 @@ export const terms = {
         {
           heading: 'User Responsibility',
           body: 'Users are responsible for ensuring their device meets the minimum system requirements for running Nimaz. Users should also verify prayer times with local authorities, particularly during Ramadan or for important religious observances.',
+        },
+        {
+          heading: 'Not Religious Guidance',
+          body: 'Nimaz is a tool, not a scholar. Prayer times, Qibla bearings, calendar dates, zakat figures and the answers produced by the optional AI search are all calculated or generated output, offered to help you rather than to rule on anything. None of it is a fatwa. For any matter of religious consequence, consult a qualified scholar or your local masjid.',
+        },
+        {
+          heading: 'Optional Connected Features',
+          body: 'Two features reach beyond your device, and both are your choice. The AI-assisted search is disabled until you enable it, and sends only your question text to be answered. Device-to-device sync transfers your data directly between two phones you control. Using either is entirely optional, and the app is fully functional without them.',
         },
       ],
     },
@@ -67,6 +90,10 @@ export const terms = {
         {
           heading: 'Accuracy of Information',
           body: 'While we strive to provide accurate prayer times and Qibla directions, many factors can affect accuracy including location services, calculation methods, and device sensors. Users should verify critical information with local authorities.',
+        },
+        {
+          heading: 'AI-Generated Answers',
+          body: 'The optional AI search can be wrong, incomplete, or misleading, and it may cite sources that do not support the point being made. It is provided as a starting point for your own reading, which is why every answer shows the verses and hadiths it relies on so you can check them. Do not act on an AI answer alone in any matter of religious practice.',
         },
         {
           heading: 'Service Availability',
