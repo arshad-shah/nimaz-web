@@ -40,7 +40,7 @@
     "@astrojs/check": "^0.9.9",
     "@axe-core/playwright": "4.11.3",
     "@eslint/js": "^10.0.1",
-    "@iconify-json/lucide": "1.2.109",
+    "@iconify-json/lucide": "1.2.111",
     "@playwright/test": "1.60.0",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "16.3.2",
