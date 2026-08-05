@@ -47,16 +47,16 @@ settings) that does not exist in the app at all.
 
 Fix these before adding anything new. Each is checkable against source.
 
-| Where | Site says | App actually | Severity |
-|---|---|---|---|
-| `src/data/stats.ts` | **18** Calculation Methods | **11** — `CalculationMethod` in `domain/model/PrayerModels.kt` has exactly 11 entries (MWL, Egyptian, Karachi, Umm Al-Qura, Dubai, Moonsighting Committee, ISNA, Kuwait, Qatar, Singapore, Turkey) | **High** — overstated by 64% |
-| `src/data/stats.ts` | **9** Hadith Collections | **6** — `bukhari`, `muslim`, `tirmidhi`, `nasai`, `abudawud`, `ibnmajah` (`HadithCollectionScreen.kt`, `NimazColors.HadithCollectionColors`, and `docs/ai-ask-with-proof.md`: "the six shipped collections"). The site's own `features.ts` copy names exactly these six — so the page **contradicts itself** | **High** |
-| `src/data/stats.ts` | **99.9%** Prayer Time Accuracy · **±0.5°** Qibla Precision | Not derived from anything in the codebase. Unfalsifiable marketing numbers on a religious-practice app | **Medium** — replace with real, checkable numbers (see §4) |
-| `src/data/features.ts` (Quran) | "renowned interpretations by **Ibn Kathir**" | **Two** tafsir sources — `TafseerSource` = Ibn Kathir **and Ma'arif al-Qur'an**. Undersells | **Medium** |
-| `src/data/privacy.ts` → "User Control & Rights" → `Analytics opt-out option`, and `src/data/faq.ts` → "the small amount of anonymous analytics can be turned off in settings" | There is **no analytics toggle in the app.** No `analyticsEnabled` preference in `PreferencesDataStore`, no `setAnalyticsCollectionEnabled` call, no privacy row in any settings screen. `core/monitoring/AppAnalytics.kt` reports unconditionally | **Critical** — a privacy policy promising a control that doesn't exist. Either ship the toggle in the app or correct both pages |
-| `src/data/site.ts` | `rating: 4.8`, `size: '47MB'` | Not verifiable from the repo. Size in particular is stale-prone: ~31 MB of bundled JSON assets were retired at versionCode 385 and `app/src/main/assets/` is now effectively empty | **Medium** — re-check both against the live Play listing |
-| `src/data/privacy.ts` | `updated: 'March 2024'` | The app has shipped ~2 years and 100+ versionCodes of change since | **High** |
-| `src/data/terms.ts` | `effective: 'March 1, 2024'` | Same | **High** |
+| Where                                                                                                                                                                         | Site says                                                                                                                                                                                                                                          | App actually                                                                                                                                                                                                                                                                                                 | Severity                                                   |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------- |
+| `src/data/stats.ts`                                                                                                                                                           | **18** Calculation Methods                                                                                                                                                                                                                         | **11** — `CalculationMethod` in `domain/model/PrayerModels.kt` has exactly 11 entries (MWL, Egyptian, Karachi, Umm Al-Qura, Dubai, Moonsighting Committee, ISNA, Kuwait, Qatar, Singapore, Turkey)                                                                                                           | **High** — overstated by 64%                               |
+| `src/data/stats.ts`                                                                                                                                                           | **9** Hadith Collections                                                                                                                                                                                                                           | **6** — `bukhari`, `muslim`, `tirmidhi`, `nasai`, `abudawud`, `ibnmajah` (`HadithCollectionScreen.kt`, `NimazColors.HadithCollectionColors`, and `docs/ai-ask-with-proof.md`: "the six shipped collections"). The site's own `features.ts` copy names exactly these six — so the page **contradicts itself** | **High**                                                   |
+| `src/data/stats.ts`                                                                                                                                                           | **99.9%** Prayer Time Accuracy · **±0.5°** Qibla Precision                                                                                                                                                                                         | Not derived from anything in the codebase. Unfalsifiable marketing numbers on a religious-practice app                                                                                                                                                                                                       | **Medium** — replace with real, checkable numbers (see §4) |
+| `src/data/features.ts` (Quran)                                                                                                                                                | "renowned interpretations by **Ibn Kathir**"                                                                                                                                                                                                       | **Two** tafsir sources — `TafseerSource` = Ibn Kathir **and Ma'arif al-Qur'an**. Undersells                                                                                                                                                                                                                  | **Medium**                                                 |
+| `src/data/privacy.ts` → "User Control & Rights" → `Analytics opt-out option`, and `src/data/faq.ts` → "the small amount of anonymous analytics can be turned off in settings" | There is **no analytics toggle in the app.** No `analyticsEnabled` preference in `PreferencesDataStore`, no `setAnalyticsCollectionEnabled` call, no privacy row in any settings screen. `core/monitoring/AppAnalytics.kt` reports unconditionally | **Critical** — a privacy policy promising a control that doesn't exist. Either ship the toggle in the app or correct both pages                                                                                                                                                                              |
+| `src/data/site.ts`                                                                                                                                                            | `rating: 4.8`, `size: '47MB'`                                                                                                                                                                                                                      | Not verifiable from the repo. Size in particular is stale-prone: ~31 MB of bundled JSON assets were retired at versionCode 385 and `app/src/main/assets/` is now effectively empty                                                                                                                           | **Medium** — re-check both against the live Play listing   |
+| `src/data/privacy.ts`                                                                                                                                                         | `updated: 'March 2024'`                                                                                                                                                                                                                            | The app has shipped ~2 years and 100+ versionCodes of change since                                                                                                                                                                                                                                           | **High**                                                   |
+| `src/data/terms.ts`                                                                                                                                                           | `effective: 'March 1, 2024'`                                                                                                                                                                                                                       | Same                                                                                                                                                                                                                                                                                                         | **High**                                                   |
 
 `site.app.minOs: 'Android 10.0+'` is **correct** — `minSdk = 29`. Good.
 
@@ -185,21 +185,21 @@ The site's stats strip is four numbers, three of which are wrong or unfalsifiabl
 below is verifiable from source and can be pinned by a unit test in `src/data/__tests__/`, which
 is how they stop rotting:
 
-| Number | Value | Source of truth |
-|---|---|---|
-| Calculation methods | **11** | `CalculationMethod` enum |
-| Hadith collections | **6** | `HadithCollectionScreen` book ids |
-| Quran translations | **15** | `QuranTranslation` enum |
-| Translation languages | **11** | `TranslationLanguage` enum |
-| Reciters | **13** | `QuranReciter` enum |
-| Tafsir sources | **2** | `TafseerSource` enum |
-| Arabic fonts | **3** | `QuranArabicFont` enum |
-| Home-screen widgets | **6** | `SUBSYSTEMS.md` §0.4 |
-| Worship reminder types | **11** | `WorshipReminderType` enum |
-| Adhan sounds | **4** (3 muezzins + a beep) | `AdhanSound` enum |
-| App languages | **6** | `res/values-*` |
-| Screens / destinations | **93** | `NAVIGATION.md` §3 |
-| Minimum Android | **10** (API 29) | `minSdk` |
+| Number                 | Value                       | Source of truth                   |
+| ---------------------- | --------------------------- | --------------------------------- |
+| Calculation methods    | **11**                      | `CalculationMethod` enum          |
+| Hadith collections     | **6**                       | `HadithCollectionScreen` book ids |
+| Quran translations     | **15**                      | `QuranTranslation` enum           |
+| Translation languages  | **11**                      | `TranslationLanguage` enum        |
+| Reciters               | **13**                      | `QuranReciter` enum               |
+| Tafsir sources         | **2**                       | `TafseerSource` enum              |
+| Arabic fonts           | **3**                       | `QuranArabicFont` enum            |
+| Home-screen widgets    | **6**                       | `SUBSYSTEMS.md` §0.4              |
+| Worship reminder types | **11**                      | `WorshipReminderType` enum        |
+| Adhan sounds           | **4** (3 muezzins + a beep) | `AdhanSound` enum                 |
+| App languages          | **6**                       | `res/values-*`                    |
+| Screens / destinations | **93**                      | `NAVIGATION.md` §3                |
+| Minimum Android        | **10** (API 29)             | `minSdk`                          |
 
 Suggested replacement stats strip: **6 Hadith collections · 15 Quran translations · 13 reciters ·
 11 calculation methods** — all true, all more impressive than "99.9% accuracy", and none of them
@@ -244,12 +244,12 @@ substantive rather than cosmetic.
 **Claims that are no longer true:**
 
 6. The **analytics opt-out** (§2) — promised, not implemented.
-7. *"Nimaz does not track or analyze your individual prayer habits"* — literally true about the
+7. _"Nimaz does not track or analyze your individual prayer habits"_ — literally true about the
    server, but the app now has prayer/fast/tasbih/khatam trackers with statistics. Reword to what
    you actually mean: tracking happens, and it happens **only on the device**. As written it will
    read as contradicted by the app's own feature list once the site starts advertising trackers.
-8. *"Data Storage & Security … stored securely with proper encryption"* and *"regular security
-   audits"* server-side — the app's architecture is offline-first with no user-data backend.
+8. _"Data Storage & Security … stored securely with proper encryption"_ and _"regular security
+   audits"_ server-side — the app's architecture is offline-first with no user-data backend.
    Claiming server-side storage and audits you don't perform is worse than saying "we don't have
    a server for your data", which is the stronger and truer statement.
 9. `src/data/terms.ts` → "Restrictions" forbids reverse engineering and decompilation, while the
@@ -272,7 +272,7 @@ truth.
 - **JSON-LD is minimal.** `Seo.astro` emits a `SoftwareApplication` with no
   `aggregateRating`, `featureList`, `screenshot`, `softwareVersion` or `datePublished`. Given the
   app already claims a 4.8 rating, `featureList` and `aggregateRating` are free rich-result wins.
-- **The FAQ answer** *"What else does Nimaz include besides prayer times?"* names five things. It
+- **The FAQ answer** _"What else does Nimaz include besides prayer times?"_ names five things. It
   should name fifteen — this is the single highest-leverage string on the site for both users and
   FAQ rich results.
 - **The footer's "Features" column** hardcodes four items and is not derived from
@@ -336,28 +336,28 @@ be repeated in another two years.
 
 Everything asserted above, with where it was read from.
 
-| Fact | Value | Read from |
-|---|---|---|
-| versionName / versionCode | 3.0.96 / 396 | `app/build.gradle.kts` |
-| minSdk / targetSdk / compileSdk | 29 / 36 / 37 | `app/build.gradle.kts` |
-| Navigable destinations | 93 | `docs/NAVIGATION.md` §3 |
-| Calculation methods | 11 | `domain/model/PrayerModels.kt` |
-| Asr juristic methods | 2 (Standard, Hanafi) | `AsrJuristicMethod` |
-| Hadith collections | 6 | `presentation/screens/hadith/HadithCollectionScreen.kt` |
-| Quran translations | 15, across 11 languages | `domain/model/QuranTranslation.kt` |
-| Reciters | 13 | `domain/model/QuranReciter.kt` |
-| Tafsir sources | 2 (Ibn Kathir, Ma'arif al-Qur'an) | `domain/model/TafseerModels.kt` |
-| Arabic fonts | 3 | `presentation/theme/Type.kt` |
-| Adhan sounds | 4 | `data/audio/AdhanSound.kt` |
-| UI languages | 6 | `app/src/main/res/values-*` |
-| Themes | System / Light / Dark + dynamic colour | `AppTheme`, `presentation/theme/Theme.kt` |
-| Widgets | 6 | `docs/SUBSYSTEMS.md` §0.4 |
-| Workers | 7 | `docs/SUBSYSTEMS.md` §0.3 |
-| Foreground services | 4 | `docs/SUBSYSTEMS.md` §0.2 |
-| Notification channels | 12 | `docs/SUBSYSTEMS.md` §0.6 |
-| Worship reminder types | 11 | `domain/model/WorshipReminder.kt` |
-| Celebration events | 10 named + generic | `domain/model/Announcement.kt` |
-| Sync tables | 14 DAOs + full preferences dump | `docs/SUBSYSTEMS.md` §10 |
-| Firebase SDKs | Crashlytics, Analytics, Performance, Messaging | `app/build.gradle.kts` |
-| Analytics opt-out | **none** | no `analyticsEnabled` pref; `core/monitoring/AppAnalytics.kt` |
-| Offline out of the box | yes — content DB ships in the APK | `docs/SUBSYSTEMS.md` §7 |
+| Fact                            | Value                                          | Read from                                                     |
+| ------------------------------- | ---------------------------------------------- | ------------------------------------------------------------- |
+| versionName / versionCode       | 3.0.96 / 396                                   | `app/build.gradle.kts`                                        |
+| minSdk / targetSdk / compileSdk | 29 / 36 / 37                                   | `app/build.gradle.kts`                                        |
+| Navigable destinations          | 93                                             | `docs/NAVIGATION.md` §3                                       |
+| Calculation methods             | 11                                             | `domain/model/PrayerModels.kt`                                |
+| Asr juristic methods            | 2 (Standard, Hanafi)                           | `AsrJuristicMethod`                                           |
+| Hadith collections              | 6                                              | `presentation/screens/hadith/HadithCollectionScreen.kt`       |
+| Quran translations              | 15, across 11 languages                        | `domain/model/QuranTranslation.kt`                            |
+| Reciters                        | 13                                             | `domain/model/QuranReciter.kt`                                |
+| Tafsir sources                  | 2 (Ibn Kathir, Ma'arif al-Qur'an)              | `domain/model/TafseerModels.kt`                               |
+| Arabic fonts                    | 3                                              | `presentation/theme/Type.kt`                                  |
+| Adhan sounds                    | 4                                              | `data/audio/AdhanSound.kt`                                    |
+| UI languages                    | 6                                              | `app/src/main/res/values-*`                                   |
+| Themes                          | System / Light / Dark + dynamic colour         | `AppTheme`, `presentation/theme/Theme.kt`                     |
+| Widgets                         | 6                                              | `docs/SUBSYSTEMS.md` §0.4                                     |
+| Workers                         | 7                                              | `docs/SUBSYSTEMS.md` §0.3                                     |
+| Foreground services             | 4                                              | `docs/SUBSYSTEMS.md` §0.2                                     |
+| Notification channels           | 12                                             | `docs/SUBSYSTEMS.md` §0.6                                     |
+| Worship reminder types          | 11                                             | `domain/model/WorshipReminder.kt`                             |
+| Celebration events              | 10 named + generic                             | `domain/model/Announcement.kt`                                |
+| Sync tables                     | 14 DAOs + full preferences dump                | `docs/SUBSYSTEMS.md` §10                                      |
+| Firebase SDKs                   | Crashlytics, Analytics, Performance, Messaging | `app/build.gradle.kts`                                        |
+| Analytics opt-out               | **none**                                       | no `analyticsEnabled` pref; `core/monitoring/AppAnalytics.kt` |
+| Offline out of the box          | yes — content DB ships in the APK              | `docs/SUBSYSTEMS.md` §7                                       |
