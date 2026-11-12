@@ -2,8 +2,8 @@ import type { ThemeInput } from '@arshad-shah/cynosure/tokens';
 
 /**
  * The Nimaz theme: the only place the site's look is decided. Everything else is Cynosure
- * components reading these tokens. Compiled to CSS at build time by the Cynosure Vite adapter
- * (see `astro.config.mjs`) and imported once in `layouts/Base.astro`.
+ * components reading these tokens. Compiled to CSS at build time and added to every page by the Cynosure Astro
+ * integration (see `astro.config.mjs`).
  */
 export const theme: ThemeInput = {
   // The darker brand teal: white text on it passes WCAG AA, which the app's #14b8a6 does not.
@@ -37,10 +37,11 @@ export const theme: ThemeInput = {
   components: {
     // 72rem page column, matching the width the site has always used.
     container: { sizeLg: '72rem' },
-    // Page and section titles at marketing size; card headings keep the smaller steps.
-    heading: { sizeXl: '1.75rem', 'size-2xl': '2.25rem' },
   },
 };
+
+/** Where the visitor's colour mode is saved; shared by the init script and the ThemeToggle. */
+export const MODE_KEY = 'nimaz-theme';
 
 /** Brand colours that are not the accent; used only as category colours on Cynosure props. */
 export const brand = {

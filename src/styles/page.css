@@ -1,0 +1,11 @@
+/**
+ * The page canvas: the one thing Cynosure (0.4.0) does not own. Its Astro integration themes
+ * `:root` but leaves <html> and <body> alone, so the browser's 8px body margin and white
+ * canvas stay. Delete this file when the integration sets them. See docs/cynosure-gaps.md.
+ */
+html {
+  background: var(--cy-color-bg);
+}
+body {
+  margin: 0;
+}

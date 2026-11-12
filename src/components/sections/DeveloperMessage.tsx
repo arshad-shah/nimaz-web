@@ -1,8 +1,8 @@
-import { Card, Container, Heading, Prose, Stack } from '@arshad-shah/cynosure';
+import { Card, Heading, Prose, Section, Stack } from '@arshad-shah/cynosure';
 
 export default function DeveloperMessage() {
   return (
-    <Container size="md" paddingBlock="10">
+    <Section size="md" paddingBlock="10">
       <Card padding="lg">
         <Stack gap="5">
           <Heading level={2}>A personal message from the developer</Heading>
@@ -34,6 +34,6 @@ export default function DeveloperMessage() {
           </Prose>
         </Stack>
       </Card>
-    </Container>
+    </Section>
   );
 }

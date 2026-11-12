@@ -1,21 +1,12 @@
 import type { ReactNode } from 'react';
-import {
-  Badge,
-  Button,
-  Container,
-  Grid,
-  Heading,
-  Inline,
-  Stack,
-  Text,
-} from '@arshad-shah/cynosure';
-import { external } from '@arshad-shah/cynosure/icons';
+import { Badge, Button, Grid, Heading, Inline, Section, Stack, Text } from '@arshad-shah/cynosure';
+import { googleplay } from '@arshad-shah/cynosure/brands';
 import { site } from '../../data/site';
 
 /** `widget` is the live prayer-times island, passed in from the page as a named slot. */
 export default function Hero({ widget }: { widget?: ReactNode }) {
   return (
-    <Container paddingBlock="10">
+    <Section>
       <Grid columns={{ base: 1, lg: 2 }} gap="10" align="center">
         <Stack gap="7" align="start">
           <Badge tone="accent">Free · No ads · No tracking</Badge>
@@ -32,7 +23,7 @@ export default function Hero({ widget }: { widget?: ReactNode }) {
               variant="solid"
               tone="accent"
               size="lg"
-              iconEnd={external}
+              icon={googleplay}
             >
               Get it on Google Play
             </Button>
@@ -43,6 +34,6 @@ export default function Hero({ widget }: { widget?: ReactNode }) {
         </Stack>
         {widget}
       </Grid>
-    </Container>
+    </Section>
   );
 }

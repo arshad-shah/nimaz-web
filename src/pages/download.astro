@@ -1,10 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
 import DownloadPage from '../components/sections/DownloadPage.tsx';
-import { qrSvg } from '../lib/qr';
-import { PLAY_STORE_URL } from '../data/site';
-
-const qr = await qrSvg(PLAY_STORE_URL, { logo: { href: '/icon-192.png', modules: 8 } });
 ---
 
 <Base
@@ -12,5 +8,5 @@ const qr = await qrSvg(PLAY_STORE_URL, { logo: { href: '/icon-192.png', modules:
   description="Download Nimaz for Android — free, no ads, no in-app purchases."
   path="/download"
 >
-  <DownloadPage qr={qr} />
+  <DownloadPage />
 </Base>

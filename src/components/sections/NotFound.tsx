@@ -1,13 +1,13 @@
-import { Button, Container, EmptyState } from '@arshad-shah/cynosure';
+import { Button, EmptyState, Section } from '@arshad-shah/cynosure';
 import { compass } from '@arshad-shah/cynosure/icons';
 
 export default function NotFound() {
   return (
-    <Container size="sm" paddingBlock="10">
+    <Section size="sm">
       <EmptyState
         icon={compass}
         title="Page not found"
-        headingLevel={2}
+        headingLevel={1}
         description="The page you're looking for doesn't exist."
         actions={
           <Button href="/" variant="solid" tone="accent">
@@ -15,6 +15,6 @@ export default function NotFound() {
           </Button>
         }
       />
-    </Container>
+    </Section>
   );
 }

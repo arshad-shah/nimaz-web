@@ -1,14 +1,11 @@
 ---
 import '@fontsource-variable/outfit';
 import '@fontsource-variable/plus-jakarta-sans';
-import '../styles/cynosure.css';
-import 'virtual:cynosure/theme.css';
-import '../styles/site.css';
-import { CynosureTheme, Link } from '@arshad-shah/cynosure';
-import { themeInitScript } from '@arshad-shah/cynosure/tokens';
+import '../styles/page.css';
+import { htmlAttributes } from '@arshad-shah/cynosure/astro';
 import Seo from '../components/layout/Seo.astro';
-import SiteHeader from '../components/layout/SiteHeader.tsx';
-import SiteFooter from '../components/layout/SiteFooter.tsx';
+import Header from '../components/layout/Header.tsx';
+import Footer from '../components/layout/Footer.tsx';
 interface Props {
   title?: string;
   description?: string;
@@ -18,8 +15,7 @@ const { title, description, path } = Astro.props;
 ---
 
 <!doctype html>
-<!-- `system` until the visitor picks a mode; the script below applies a saved choice before paint. -->
-<html lang="en" data-cy-mode="system">
+<html lang="en" {...htmlAttributes({ mode: 'system' })}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
@@ -29,15 +25,10 @@ const { title, description, path } = Astro.props;
     <link rel="manifest" href="/site.webmanifest" />
     <meta name="theme-color" content="#14b8a6" />
     <Seo title={title} description={description} path={path} />
-    <script is:inline set:html={themeInitScript()} />
   </head>
   <body>
-    <CynosureTheme>
-      <Link href="#main" className="skip-link">Skip to content</Link>
-      <SiteHeader client:load path={Astro.url.pathname} />
-      <main id="main"><slot /></main>
-      <!-- Hydrated only because Avatar shows its picture from script (see docs/cynosure-gaps.md). -->
-      <SiteFooter client:idle year={new Date().getFullYear()} />
-    </CynosureTheme>
+    <Header client:load path={Astro.url.pathname} />
+    <main id="main"><slot /></main>
+    <Footer year={new Date().getFullYear()} />
   </body>
 </html>

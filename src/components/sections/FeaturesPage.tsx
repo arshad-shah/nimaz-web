@@ -3,18 +3,19 @@
  * from `features.ts`.
  *
  * Within a category, the features that have bespoke art (`illustrated`) lead with the large
- * alternating two-column treatment, and the rest follow as a card grid. Each category heading
- * carries the category id as an anchor, which the footer links to.
+ * alternating two-column treatment, and the rest follow as a card grid. Each section carries
+ * its category id as an anchor, which the footer links to.
  */
 import {
   AspectRatio,
   Button,
   Card,
-  Container,
   Grid,
+  GridItem,
   Heading,
   Inline,
   PageHeader,
+  Section,
   Stack,
   Text,
 } from '@arshad-shah/cynosure';
@@ -23,30 +24,25 @@ import StatsStrip from './StatsStrip';
 import { featureCategories, features, featuresIn, type Feature } from '../../data/features';
 import { FEATURE_ART_RATIO, featureArt } from '../../lib/feature-art';
 
-// Inline passes other attributes to its element; its types do not list `aria-label` yet.
-const categoriesNav = { 'aria-label': 'Feature categories' };
-
+/** Art then words; on wide screens every second row puts the art on the other side. */
 function LeadFeature({ feature, flip }: { feature: Feature; flip: boolean }) {
-  const art = (
-    <Card key="art" padding="none">
-      <AspectRatio ratio={FEATURE_ART_RATIO} radius="card">
-        <div dangerouslySetInnerHTML={{ __html: featureArt(feature.icon) }} />
-      </AspectRatio>
-    </Card>
-  );
-  const copy = (
-    <Stack key="copy" gap="4">
-      <Heading level={3} size="xl">
-        {feature.title}
-      </Heading>
-      <Text as="p" tone="muted">
-        {feature.body}
-      </Text>
-    </Stack>
-  );
   return (
     <Grid columns={{ base: 1, lg: 2 }} gap="9" align="center">
-      {flip ? [copy, art] : [art, copy]}
+      <GridItem order={flip ? { lg: 2 } : undefined}>
+        <Card padding="none">
+          <AspectRatio ratio={FEATURE_ART_RATIO} radius="card">
+            <div dangerouslySetInnerHTML={{ __html: featureArt(feature.icon) }} />
+          </AspectRatio>
+        </Card>
+      </GridItem>
+      <Stack gap="4">
+        <Heading level={3} size="xl">
+          {feature.title}
+        </Heading>
+        <Text as="p" tone="muted">
+          {feature.body}
+        </Text>
+      </Stack>
     </Grid>
   );
 }
@@ -54,13 +50,14 @@ function LeadFeature({ feature, flip }: { feature: Feature; flip: boolean }) {
 export default function FeaturesPage() {
   return (
     <>
-      <Container paddingBlock="10">
+      <Section paddingBlock="10">
         <PageHeader
+          titleSize="3xl"
           eyebrow="Powerful Islamic companion"
           title="Everything you need, beautifully made"
           description={`${features.length} features across six areas of practice — and all of them work offline, on a phone that never asks you to sign in.`}
         >
-          <Inline as="nav" gap="3" wrap {...categoriesNav}>
+          <Inline as="nav" gap="3" wrap aria-label="Feature categories">
             {featureCategories.map((c) => (
               <Button key={c.id} href={`#${c.id}`} size="sm">
                 {c.label}
@@ -68,16 +65,16 @@ export default function FeaturesPage() {
             ))}
           </Inline>
         </PageHeader>
-      </Container>
+      </Section>
       {featureCategories.map((cat) => {
         const items = featuresIn(cat.id);
         const lead = items.filter((f) => f.illustrated);
         const rest = items.filter((f) => !f.illustrated);
         return (
-          <Container key={cat.id} as="section" paddingBlock="9">
+          <Section key={cat.id} id={cat.id} aria-labelledby={`${cat.id}-title`}>
             <Stack gap="9">
               <Stack gap="3">
-                <Heading level={2} size="2xl" id={cat.id}>
+                <Heading level={2} size="2xl" id={`${cat.id}-title`}>
                   {cat.label}
                 </Heading>
                 <Text as="p" variant="lead">
@@ -95,7 +92,7 @@ export default function FeaturesPage() {
                 </Grid>
               )}
             </Stack>
-          </Container>
+          </Section>
         );
       })}
       <StatsStrip />

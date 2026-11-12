@@ -1,4 +1,4 @@
-import { Container, Grid, Link, PageHeader, Stack, Text } from '@arshad-shah/cynosure';
+import { Grid, Link, PageHeader, Section, Stack, Text } from '@arshad-shah/cynosure';
 import { FeatureCard } from '../FeatureCard';
 import { features } from '../../data/features';
 
@@ -6,11 +6,12 @@ import { features } from '../../data/features';
 export default function FeatureGrid({ limit }: { limit: number }) {
   const items = features.slice(0, limit);
   return (
-    <Container paddingBlock="10">
+    <Section paddingBlock="10">
       <Stack gap="8">
         <PageHeader
           as="div"
           headingLevel={2}
+          titleSize="2xl"
           eyebrow="Everything in one place"
           title="A complete Islamic companion"
         />
@@ -26,6 +27,6 @@ export default function FeatureGrid({ limit }: { limit: number }) {
           </Text>
         )}
       </Stack>
-    </Container>
+    </Section>
   );
 }

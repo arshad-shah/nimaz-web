@@ -1,41 +1,45 @@
 import {
   Button,
   Card,
-  Container,
   Grid,
   GridItem,
   Heading,
-  Icon,
   Inline,
+  List,
   PageHeader,
+  Section,
   Stack,
-  Text,
 } from '@arshad-shah/cynosure';
-import { check, download } from '@arshad-shah/cynosure/icons';
+import { download } from '@arshad-shah/cynosure/icons';
 import { QaAccordion } from './QaAccordion';
 import { privacy } from '../../data/privacy';
 
 export default function PrivacyPage() {
   return (
-    <Container paddingBlock="10">
+    <Section>
       <Stack gap="9">
         <PageHeader
+          titleSize="3xl"
           eyebrow={`Last updated · ${privacy.updated}`}
           title="Privacy Policy"
           description="Your privacy matters to us. Learn how Nimaz protects your data while providing essential Islamic services."
         />
         <Grid columns={{ base: 1, lg: 3 }} gap="9" align="start">
-          <GridItem span={2}>
+          <GridItem span={{ base: 'full', lg: 2 }}>
             <Stack gap="9" align="stretch">
-              <Stack gap="5" as="section">
-                <Heading level={2}>Policy details</Heading>
+              <Stack gap="5" as="section" aria-labelledby="policy-details">
+                <Heading level={2} id="policy-details">
+                  Policy details
+                </Heading>
                 <QaAccordion
                   headingLevel={3}
                   items={privacy.sections.map((s) => ({ summary: s.title, body: s.body }))}
                 />
               </Stack>
-              <Stack gap="5" as="section">
-                <Heading level={2}>Frequently asked questions</Heading>
+              <Stack gap="5" as="section" aria-labelledby="privacy-faq">
+                <Heading level={2} id="privacy-faq">
+                  Frequently asked questions
+                </Heading>
                 <QaAccordion
                   headingLevel={3}
                   items={privacy.faqs.map((f) => ({ summary: f.q, body: f.a }))}
@@ -48,29 +52,22 @@ export default function PrivacyPage() {
               </Inline>
             </Stack>
           </GridItem>
-          <GridItem as="aside" className="sticky-aside">
+          <GridItem as="aside" sticky stickyOffset="6rem">
             <Card padding="lg">
               <Stack gap="5">
                 <Heading level={2} size="lg">
                   Privacy at a glance
                 </Heading>
-                <Stack as="ul" gap="4">
-                  {privacy.glance.map((g) => (
-                    <li key={g}>
-                      <Inline gap="4" align="start" as="span">
-                        <Icon icon={check} tone="accent" />
-                        <Text size="sm" tone="muted">
-                          {g}
-                        </Text>
-                      </Inline>
-                    </li>
-                  ))}
-                </Stack>
+                <List
+                  marker="check"
+                  tone="accent"
+                  items={privacy.glance.map((g) => ({ label: g }))}
+                />
               </Stack>
             </Card>
           </GridItem>
         </Grid>
       </Stack>
-    </Container>
+    </Section>
   );
 }

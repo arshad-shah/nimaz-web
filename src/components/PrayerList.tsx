@@ -3,13 +3,10 @@ import type { PrayerEntry } from '../lib/prayer';
 
 const time = (d: Date) => d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
-// Stack passes other attributes to its element; its types do not list `aria-label` yet.
-const named = { 'aria-label': 'Prayer times' };
-
 /** The day's six prayer times, each with its colour from the app; the next one is marked. */
 export function PrayerList({ prayers }: { prayers: PrayerEntry[] }) {
   return (
-    <Stack as="ul" gap="3" {...named}>
+    <Stack as="ul" gap="3" aria-label="Prayer times">
       {prayers.map((p) => (
         <Card
           as="li"
@@ -18,6 +15,7 @@ export function PrayerList({ prayers }: { prayers: PrayerEntry[] }) {
           variant="soft"
           tone={p.isNext ? 'accent' : 'neutral'}
           padding="sm"
+          aria-current={p.isNext ? 'true' : undefined}
         >
           <Inline justify="between" align="center">
             <Inline gap="4" align="center">

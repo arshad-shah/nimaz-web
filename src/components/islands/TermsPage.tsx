@@ -1,13 +1,13 @@
 import {
   Button,
   Card,
-  Container,
   DescriptionList,
   Grid,
   Heading,
   Icon,
   Inline,
   PageHeader,
+  Section,
   Stack,
   Tab,
   TabList,
@@ -16,7 +16,7 @@ import {
   Text,
 } from '@arshad-shah/cynosure';
 import { checkCircle, download, mail, xCircle } from '@arshad-shah/cynosure/icons';
-import type { IconData } from '@arshad-shah/cynosure/icons';
+import type { IconData } from '@arshad-shah/cynosure';
 import { terms } from '../../data/terms';
 import { site } from '../../data/site';
 
@@ -56,14 +56,14 @@ function Uses({
 
 export default function TermsPage() {
   return (
-    <Container paddingBlock="10">
+    <Section>
       <Stack gap="9">
         <PageHeader
+          titleSize="3xl"
           eyebrow={`Effective · ${terms.effective}`}
           title="Terms & Conditions"
           description="Understanding the terms of use for Nimaz helps ensure a positive experience for everyone."
         />
-        {/* keepMounted: every panel stays in the page, so the PDF generator can print them all. */}
         <Tabs variant="soft">
           <TabList label="Sections of the terms">
             {terms.tabs.map((t) => (
@@ -73,7 +73,7 @@ export default function TermsPage() {
             ))}
           </TabList>
           {terms.tabs.map((t) => (
-            <TabPanel key={t.id} value={t.id} keepMounted>
+            <TabPanel key={t.id} value={t.id}>
               <Stack gap="6" paddingBlock="6">
                 <Text as="p" variant="lead">
                   {t.description}
@@ -107,6 +107,6 @@ export default function TermsPage() {
           </Button>
         </Inline>
       </Stack>
-    </Container>
+    </Section>
   );
 }
