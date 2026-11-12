@@ -64,3 +64,16 @@ Asked for by the feature list, mapped to the nearest Facet icon in `src/lib/icon
 
 Also wanted: a `qrCode` icon, Islamic icons the app's own set has (mosque, kaaba, crescent,
 prayer beads), and a Google Play brand mark for the download buttons.
+
+## Per-component stylesheets
+
+`src/styles/cynosure.css` imports one stylesheet per component instead of `styles.css` (83 KB
+against 204 KB). That works, but nothing says which files a component needs:
+
+- There is no `inline.css`: Inline's rules are in `stack.css`.
+- `.cy-visually-hidden` (used by Steps and Link) is only in `link.css`.
+- Sheet needs `dialog.css`, Accordion `disclosure.css`, IconButton `tooltip.css`, and Button's
+  `loading` state `loading-dots.css`.
+
+Wanted: a manifest of each component's stylesheets (or have the Vite adapter work the list out
+from the components a product imports). Until then `e2e/styles.spec.ts` guards the list.

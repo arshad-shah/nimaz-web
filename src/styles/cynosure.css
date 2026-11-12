@@ -1,0 +1,39 @@
+/**
+ * Cynosure's styles, one file per component the site uses, instead of the whole
+ * `styles.css` (about 190 KB). `base.css` and `icon.css` come first, as in `styles.css`.
+ *
+ * When a page starts using another component, add its stylesheet here: without it the
+ * component renders unstyled. Some files are needed by components that do not share their
+ * name: `dialog` by Sheet, `disclosure` by Accordion, `loading-dots` by Button's `loading`,
+ * `tooltip` by IconButton, `stack` by Inline, and `link` holds the visually-hidden text Steps and Link use.
+ * `e2e/styles.spec.ts` fails if a Cynosure class on a page has no rule.
+ */
+@import '@arshad-shah/cynosure/styles/base.css';
+@import '@arshad-shah/cynosure/styles/icon.css';
+@import '@arshad-shah/cynosure/styles/accordion.css';
+@import '@arshad-shah/cynosure/styles/aspect-ratio.css';
+@import '@arshad-shah/cynosure/styles/avatar.css';
+@import '@arshad-shah/cynosure/styles/badge.css';
+@import '@arshad-shah/cynosure/styles/button.css';
+@import '@arshad-shah/cynosure/styles/card.css';
+@import '@arshad-shah/cynosure/styles/container.css';
+@import '@arshad-shah/cynosure/styles/description-list.css';
+@import '@arshad-shah/cynosure/styles/dialog.css';
+@import '@arshad-shah/cynosure/styles/disclosure.css';
+@import '@arshad-shah/cynosure/styles/divider.css';
+@import '@arshad-shah/cynosure/styles/empty-state.css';
+@import '@arshad-shah/cynosure/styles/grid.css';
+@import '@arshad-shah/cynosure/styles/heading.css';
+@import '@arshad-shah/cynosure/styles/iconbutton.css';
+@import '@arshad-shah/cynosure/styles/link.css';
+@import '@arshad-shah/cynosure/styles/loading-dots.css';
+@import '@arshad-shah/cynosure/styles/notice.css';
+@import '@arshad-shah/cynosure/styles/page-header.css';
+@import '@arshad-shah/cynosure/styles/prose.css';
+@import '@arshad-shah/cynosure/styles/sheet.css';
+@import '@arshad-shah/cynosure/styles/side-nav.css';
+@import '@arshad-shah/cynosure/styles/stack.css';
+@import '@arshad-shah/cynosure/styles/steps.css';
+@import '@arshad-shah/cynosure/styles/tabs.css';
+@import '@arshad-shah/cynosure/styles/text.css';
+@import '@arshad-shah/cynosure/styles/tooltip.css';
