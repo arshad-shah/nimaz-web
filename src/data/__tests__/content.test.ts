@@ -5,20 +5,19 @@ import { stats } from '../stats';
 import { privacy } from '../privacy';
 import { terms } from '../terms';
 import { faqs } from '../faq';
+import { featureArt } from '../../lib/feature-art';
+import { featureIcons } from '../../lib/icons';
 
 const categoryIds = featureCategories.map((c) => c.id);
 
 const feature = z.object({
-  icon: z.string().regex(/^[a-z][a-z0-9-]*$/, 'must be a kebab-case Lucide icon name'),
+  icon: z.string().regex(/^[a-z][a-z0-9-]*$/, 'must be a kebab-case icon key'),
   title: z.string().min(1),
   body: z.string().min(40),
   accent: z.enum(['primary', 'gold', 'purple']),
   category: z.enum(['prayer', 'quran', 'worship', 'library', 'tools', 'platform']),
   illustrated: z.literal(true).optional(),
 });
-
-/** The six icons FeatureArt.astro actually draws. Anything else must not claim `illustrated`. */
-const ILLUSTRATED_ICONS = ['clock', 'compass', 'calendar', 'book-open', 'bell', 'scroll-text'];
 
 describe('content data', () => {
   it('has a well-formed feature catalogue', () => {
@@ -30,11 +29,13 @@ describe('content data', () => {
     expect(new Set(features.map((f) => f.title)).size).toBe(features.length);
   });
 
-  it('only marks features illustrated when FeatureArt can draw them', () => {
-    // Otherwise the showcase renders an empty SVG where the art should be.
-    features
-      .filter((f) => f.illustrated)
-      .forEach((f) => expect(ILLUSTRATED_ICONS).toContain(f.icon));
+  it('only marks features illustrated when there is art to draw', () => {
+    // Otherwise the showcase renders an empty box where the art should be.
+    features.filter((f) => f.illustrated).forEach((f) => expect(featureArt(f.icon)).not.toBe(''));
+  });
+
+  it('maps every feature icon key to a Cynosure icon', () => {
+    features.forEach((f) => expect(featureIcons, f.icon).toHaveProperty([f.icon]));
   });
 
   it('files every feature under a declared category, and leaves none empty', () => {

@@ -13,8 +13,8 @@
  *   pnpm build && pnpm preview --port 4321 &
  *   pnpm gen:legal
  *
- * Print styling lives in the `@media print` block in `src/styles/global.css`; the page content
- * sits inside <details> accordions, which are forced open here so nothing is omitted.
+ * Print styling lives in the `@media print` block in `src/styles/site.css`. The page content
+ * sits inside Cynosure accordions and tabs, which are opened here so nothing is omitted.
  */
 import { chromium } from '@playwright/test';
 import { mkdir } from 'node:fs/promises';
@@ -41,12 +41,25 @@ try {
     if (!res || !res.ok()) {
       throw new Error(`${path} returned ${res?.status() ?? 'no response'} — is the preview up?`);
     }
-    // Force the light theme and expand every accordion, or the PDF prints headings alone.
+    // Force the light mode, open every accordion section and show every tab panel, or the PDF
+    // prints headings alone. The accordions are opened by pressing them, as a reader would.
     await page.emulateMedia({ media: 'print', colorScheme: 'light' });
+    await page.evaluate(() => document.documentElement.setAttribute('data-cy-mode', 'light'));
+    const closed = page.locator('button[aria-expanded="false"][aria-controls]');
+    while ((await closed.count()) > 0) await closed.first().click();
+    // Tabs mean nothing on paper: show every panel, each under its tab's name.
     await page.evaluate(() => {
-      document.documentElement.setAttribute('data-theme', 'light');
-      document.querySelectorAll('details').forEach((d) => d.setAttribute('open', ''));
+      document.querySelectorAll('[role="tabpanel"]').forEach((panel) => {
+        const tab = document.getElementById(panel.getAttribute('aria-labelledby') ?? '');
+        const title = document.createElement('h2');
+        title.textContent = tab?.textContent ?? '';
+        title.style.cssText = 'font: 700 1.5rem var(--cy-font-display); margin: 2rem 0 0';
+        panel.prepend(title);
+        panel.removeAttribute('hidden');
+      });
+      document.querySelectorAll('[role="tablist"]').forEach((list) => list.remove());
     });
+    await page.waitForTimeout(500);
     await page.pdf({
       path: out,
       format: 'A4',
