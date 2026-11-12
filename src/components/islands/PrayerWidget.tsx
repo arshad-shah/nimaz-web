@@ -1,4 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
+import { Button, Card, Inline, Notice, Stack, Text } from '@arshad-shah/cynosure';
+import { locate } from '@arshad-shah/cynosure/icons';
+import { PrayerList } from '../PrayerList';
 import { getPrayerSchedule, DEFAULT_LOCATION, type GeoLocation } from '../../lib/prayer';
 
 function useNow(active: boolean) {
@@ -10,10 +13,6 @@ function useNow(active: boolean) {
     return () => clearInterval(id);
   }, [active]);
   return now;
-}
-
-function fmt(d: Date) {
-  return d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 }
 
 function countdown(target: Date, now: Date) {
@@ -50,56 +49,30 @@ export default function PrayerWidget() {
   }
 
   return (
-    <div className="rounded-2xl border border-[var(--outline)] bg-[var(--surface)] p-5">
-      <div className="mb-4 flex items-baseline justify-between">
-        <p className="text-xs font-semibold text-[var(--muted)]">
-          {next ? `NEXT · ${next.name.toUpperCase()} IN` : 'PRAYER TIMES'}
-        </p>
-        {next && (
-          <p className="font-display text-2xl font-bold text-[var(--c-accent-text)]">
-            {countdown(next.time, now)}
-          </p>
+    <Card padding="lg">
+      <Stack gap="5">
+        <Inline justify="between" align="center">
+          <Text variant="eyebrow">{next ? `Next · ${next.name} in` : 'Prayer times'}</Text>
+          {next && (
+            <Text numeric weight="bold" size="2xl" tone="accent">
+              {countdown(next.time, now)}
+            </Text>
+          )}
+        </Inline>
+        <PrayerList prayers={schedule.prayers} />
+        <Inline justify="between" align="center">
+          <Text variant="caption">{location.label}</Text>
+          <Button size="sm" icon={locate} loading={status === 'locating'} onClick={requestLocation}>
+            Use my location
+          </Button>
+        </Inline>
+        {status === 'denied' && (
+          <Notice tone="danger">Couldn't get location — showing {location.label}.</Notice>
         )}
-      </div>
-      <ul aria-label="Prayer times" className="space-y-2">
-        {schedule.prayers.map((p) => (
-          <li
-            key={p.key}
-            aria-current={p.isNext ? 'true' : undefined}
-            className="flex items-center justify-between rounded-xl bg-[var(--surface-2)] px-3.5 py-2.5 text-sm"
-            style={{
-              borderLeft: `3px solid ${p.color}`,
-              ...(p.isNext ? { background: 'var(--c-highlight)' } : {}),
-            }}
-          >
-            <span className="font-semibold">
-              {p.name}
-              {p.isNext && <span className="sr-only"> (next)</span>}
-            </span>
-            <span className="font-display font-bold">{fmt(p.time)}</span>
-          </li>
-        ))}
-      </ul>
-      <div className="mt-4 flex items-center justify-between gap-3">
-        <p className="text-xs text-[var(--muted)]">{location.label}</p>
-        <button
-          type="button"
-          onClick={requestLocation}
-          disabled={status === 'locating'}
-          aria-busy={status === 'locating'}
-          className="rounded-full border border-[var(--outline)] px-3 py-1.5 text-xs font-semibold hover:bg-[var(--surface-2)] disabled:opacity-60"
-        >
-          {status === 'locating' ? 'Locating…' : 'Use my location'}
-        </button>
-      </div>
-      {status === 'denied' && (
-        <p role="alert" className="mt-2 text-xs text-[var(--c-error)]">
-          Couldn't get location — showing {location.label}.
-        </p>
-      )}
-      <p className="mt-2 text-xs text-[var(--muted)]">
-        Your location is used only in your browser. Nothing is stored or sent.
-      </p>
-    </div>
+        <Text variant="caption">
+          Your location is used only in your browser. Nothing is stored or sent.
+        </Text>
+      </Stack>
+    </Card>
   );
 }

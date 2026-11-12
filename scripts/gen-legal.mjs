@@ -13,8 +13,8 @@
  *   pnpm build && pnpm preview --port 4321 &
  *   pnpm gen:legal
  *
- * Print styling lives in the `@media print` block in `src/styles/global.css`; the page content
- * sits inside <details> accordions, which are forced open here so nothing is omitted.
+ * The page content sits inside Cynosure accordions and tabs, which print open by themselves,
+ * so nothing is omitted.
  */
 import { chromium } from '@playwright/test';
 import { mkdir } from 'node:fs/promises';
@@ -41,12 +41,27 @@ try {
     if (!res || !res.ok()) {
       throw new Error(`${path} returned ${res?.status() ?? 'no response'} — is the preview up?`);
     }
-    // Force the light theme and expand every accordion, or the PDF prints headings alone.
+    // Force the light mode. Cynosure prints closed accordion sections open and every tab panel.
     await page.emulateMedia({ media: 'print', colorScheme: 'light' });
+    await page.evaluate(() => document.documentElement.setAttribute('data-cy-mode', 'light'));
+    // Make the page a document: drop the site chrome and the link to this very PDF, and put
+    // each tab's name above its panel in place of the tab list. (Cynosure prints the chrome and
+    // leaves printed panels untitled; see docs/cynosure-gaps.md.)
     await page.evaluate(() => {
-      document.documentElement.setAttribute('data-theme', 'light');
-      document.querySelectorAll('details').forEach((d) => d.setAttribute('open', ''));
+      document.querySelectorAll('header, footer, a[href$=".pdf"]').forEach((el) => {
+        // The page's own heading is a <header> too, inside <main>: keep that one.
+        if (el.tagName === 'A' || !el.closest('main')) el.remove();
+      });
+      document.querySelectorAll('[role="tabpanel"]').forEach((panel) => {
+        const tab = document.getElementById(panel.getAttribute('aria-labelledby') ?? '');
+        const title = document.createElement('h2');
+        title.textContent = tab?.textContent ?? '';
+        title.style.cssText = 'font: 700 1.5rem var(--cy-font-display); margin: 2rem 0 0';
+        panel.prepend(title);
+      });
+      document.querySelectorAll('[role="tablist"]').forEach((list) => list.remove());
     });
+    await page.waitForTimeout(500);
     await page.pdf({
       path: out,
       format: 'A4',

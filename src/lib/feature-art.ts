@@ -1,35 +1,31 @@
----
 /**
- * Flat, gradient-free "spot" illustrations for each feature, keyed by the
- * Lucide icon name in features.ts. Shapes use theme tokens so the art adapts
- * to light/dark. Decorative only — the adjacent heading/body carry the meaning.
+ * Flat, gradient-free "spot" illustrations for the six lead features, keyed by the icon name
+ * in `features.ts`. These are artwork, not UI: each is an SVG string drawn with Cynosure's
+ * colour tokens, so the art follows light and dark. Decorative only; the heading and body
+ * beside it carry the meaning. Rendered inside a Cynosure `AspectRatio` (320 × 220).
  */
-interface Props {
-  icon: string;
-  class?: string;
-}
-const { icon, class: cls = '' } = Astro.props;
+import { brand } from '../theme';
+import { PRAYER_COLOR } from './prayer';
 
-const S = 'var(--surface)';
-const O = 'var(--outline)';
-const M = 'var(--muted)';
-const TEAL = 'var(--c-primary)';
-const GOLD = 'var(--c-gold)';
-const PURPLE = 'var(--c-purple)';
+const S = 'var(--cy-color-surface)';
+const O = 'var(--cy-color-line)';
+const M = 'var(--cy-color-muted)';
+const TEAL = brand.teal;
+const GOLD = brand.gold;
+const PURPLE = brand.purple;
 
-const prayerDots = [
-  'var(--c-fajr)',
-  'var(--c-sunrise)',
-  'var(--c-dhuhr)',
-  'var(--c-asr)',
-  'var(--c-maghrib)',
-  'var(--c-isha)',
-];
+const tint = (c: string) => `color-mix(in oklab, ${c} 14%, ${S})`;
+const deep = (c: string) => `color-mix(in oklab, ${c} 60%, var(--cy-color-ink))`;
+const TINT_TEAL = tint(TEAL);
+const TINT_GOLD = tint(GOLD);
+const TINT_PURPLE = tint(PURPLE);
+
+const prayerDots = Object.values(PRAYER_COLOR);
 
 const art: Record<string, string> = {
   // Accurate Prayer Times — clock dial ringed with the six prayer colours + a "next prayer" card
   clock:
-    `<rect width="320" height="220" fill="var(--c-tint-primary-bg)"/>` +
+    `<rect width="320" height="220" fill="${TINT_TEAL}"/>` +
     `<circle cx="128" cy="110" r="66" fill="${S}" stroke="${TEAL}" stroke-width="6"/>` +
     prayerDots
       .map((c, i) => {
@@ -47,19 +43,19 @@ const art: Record<string, string> = {
 
   // Qibla Direction — compass dial, needle pointing to the Kaaba
   compass:
-    `<rect width="320" height="220" fill="var(--c-tint-gold-bg)"/>` +
+    `<rect width="320" height="220" fill="${TINT_GOLD}"/>` +
     `<circle cx="150" cy="110" r="74" fill="${S}" stroke="${GOLD}" stroke-width="6"/>` +
     `<circle cx="150" cy="110" r="58" fill="none" stroke="${O}" stroke-width="2"/>` +
     `<path d="M150 70 L166 110 L150 100 L134 110 Z" fill="${GOLD}"/>` +
     `<path d="M150 150 L134 110 L150 120 L166 110 Z" fill="${M}"/>` +
     `<circle cx="150" cy="110" r="5" fill="${S}" stroke="${GOLD}" stroke-width="3"/>` +
     `<rect x="244" y="78" width="44" height="44" rx="8" fill="${GOLD}"/>` +
-    `<rect x="244" y="92" width="44" height="9" fill="var(--c-tint-gold-fg)"/>` +
-    `<rect x="262" y="78" width="8" height="44" fill="var(--c-tint-gold-fg)" opacity="0.55"/>`,
+    `<rect x="244" y="92" width="44" height="9" fill="${deep(GOLD)}"/>` +
+    `<rect x="262" y="78" width="8" height="44" fill="${deep(GOLD)}" opacity="0.55"/>`,
 
   // Islamic Calendar — month card with a highlighted day under a crescent + star
   calendar:
-    `<rect width="320" height="220" fill="var(--c-tint-purple-bg)"/>` +
+    `<rect width="320" height="220" fill="${TINT_PURPLE}"/>` +
     `<rect x="74" y="52" width="172" height="128" rx="16" fill="${S}" stroke="${O}" stroke-width="2"/>` +
     `<rect x="74" y="52" width="172" height="30" rx="16" fill="${PURPLE}"/>` +
     `<rect x="74" y="68" width="172" height="14" fill="${PURPLE}"/>` +
@@ -74,12 +70,12 @@ const art: Record<string, string> = {
       )
       .join('') +
     `<circle cx="232" cy="44" r="18" fill="${GOLD}"/>` +
-    `<circle cx="240" cy="40" r="15" fill="var(--c-tint-purple-bg)"/>` +
+    `<circle cx="240" cy="40" r="15" fill="${TINT_PURPLE}"/>` +
     `<path d="M262 30 l3.2 6.5 7.2 1 -5.2 5.1 1.2 7.1 -6.4 -3.4 -6.4 3.4 1.2 -7.1 -5.2 -5.1 7.2 -1 Z" fill="${GOLD}"/>`,
 
   // Quran Reader with Tafsir — open book with text lines and a bookmark ribbon
   'book-open':
-    `<rect width="320" height="220" fill="var(--c-tint-primary-bg)"/>` +
+    `<rect width="320" height="220" fill="${TINT_TEAL}"/>` +
     `<path d="M160 64 C140 52 108 52 88 60 V160 C108 152 140 152 160 162 Z" fill="${S}" stroke="${O}" stroke-width="2"/>` +
     `<path d="M160 64 C180 52 212 52 232 60 V160 C212 152 180 152 160 162 Z" fill="${S}" stroke="${O}" stroke-width="2"/>` +
     `<line x1="160" y1="64" x2="160" y2="162" stroke="${O}" stroke-width="2"/>` +
@@ -94,24 +90,24 @@ const art: Record<string, string> = {
 
   // Adhan Notifications — bell with sound waves and an alert badge
   bell:
-    `<rect width="320" height="220" fill="var(--c-tint-gold-bg)"/>` +
+    `<rect width="320" height="220" fill="${TINT_GOLD}"/>` +
     `<path d="M118 150 a40 40 0 0 1 80 0 Z" fill="${S}" stroke="${GOLD}" stroke-width="6" stroke-linejoin="round"/>` +
     `<rect x="150" y="76" width="16" height="16" rx="8" fill="${GOLD}"/>` +
     `<path d="M150 162 a8 8 0 0 0 16 0 Z" fill="${GOLD}"/>` +
     `<path d="M212 86 a44 44 0 0 1 0 70" fill="none" stroke="${GOLD}" stroke-width="6" stroke-linecap="round"/>` +
     `<path d="M232 70 a70 70 0 0 1 0 102" fill="none" stroke="${GOLD}" stroke-width="6" stroke-linecap="round" opacity="0.5"/>` +
-    `<circle cx="196" cy="80" r="16" fill="var(--c-maghrib)"/>` +
+    `<circle cx="196" cy="80" r="16" fill="${PRAYER_COLOR.maghrib}"/>` +
     `<rect x="190" y="71" width="12" height="14" rx="3" fill="${S}"/>`,
 
   // Hadith Collection — stacked book spines with a quotation mark
   'scroll-text':
-    `<rect width="320" height="220" fill="var(--c-tint-purple-bg)"/>` +
+    `<rect width="320" height="220" fill="${TINT_PURPLE}"/>` +
     `<rect x="92" y="150" width="160" height="26" rx="7" fill="${PURPLE}"/>` +
     `<rect x="100" y="124" width="144" height="26" rx="7" fill="${S}" stroke="${O}" stroke-width="2"/>` +
-    `<rect x="84" y="98" width="176" height="26" rx="7" fill="var(--c-tint-purple-fg)"/>` +
+    `<rect x="84" y="98" width="176" height="26" rx="7" fill="${deep(PURPLE)}"/>` +
     `<rect x="116" y="103" width="6" height="16" rx="3" fill="${S}" opacity="0.7"/>` +
     `<rect x="120" y="131" width="60" height="6" rx="3" fill="${M}"/>` +
-    `<rect x="124" y="158" width="70" height="6" rx="3" fill="var(--c-tint-purple-bg)"/>` +
+    `<rect x="124" y="158" width="70" height="6" rx="3" fill="${TINT_PURPLE}"/>` +
     `<rect x="120" y="44" width="120" height="48" rx="12" fill="${S}" stroke="${O}" stroke-width="2"/>` +
     `<path d="M140 80 v-12 a8 8 0 0 1 8 -8 h2 v8 h-2 a2 2 0 0 0 -2 2 v2 h6 v8 Z" fill="${PURPLE}"/>` +
     `<path d="M168 80 v-12 a8 8 0 0 1 8 -8 h2 v8 h-2 a2 2 0 0 0 -2 2 v2 h6 v8 Z" fill="${PURPLE}"/>` +
@@ -119,13 +115,11 @@ const art: Record<string, string> = {
     `<rect x="192" y="74" width="24" height="6" rx="3" fill="${O}"/>`,
 };
 
-const inner = art[icon] ?? '';
----
+export const FEATURE_ART_RATIO = 320 / 220;
 
-<svg
-  viewBox="0 0 320 220"
-  role="presentation"
-  aria-hidden="true"
-  class:list={['block h-auto w-full overflow-hidden', cls]}
-  set:html={inner}
-/>
+/** The illustration for a feature icon, as a complete `<svg>` string ('' when it has none). */
+export function featureArt(icon: string): string {
+  const inner = art[icon];
+  if (!inner) return '';
+  return `<svg viewBox="0 0 320 220" role="presentation" aria-hidden="true" preserveAspectRatio="xMidYMid slice">${inner}</svg>`;
+}

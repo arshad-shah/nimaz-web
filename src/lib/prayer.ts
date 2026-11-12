@@ -29,13 +29,23 @@ export const DEFAULT_LOCATION: GeoLocation = {
   label: 'Dubai, UAE',
 };
 
+/** Each prayer's colour in the app. Passed to Cynosure as a category colour (`Card edge`). */
+export const PRAYER_COLOR: Record<PrayerKey, string> = {
+  fajr: '#6366f1',
+  sunrise: '#f59e0b',
+  dhuhr: '#eab308',
+  asr: '#f97316',
+  maghrib: '#ef4444',
+  isha: '#8b5cf6',
+};
+
 const META: Record<PrayerKey, { name: string; color: string }> = {
-  fajr: { name: 'Fajr', color: 'var(--c-fajr)' },
-  sunrise: { name: 'Sunrise', color: 'var(--c-sunrise)' },
-  dhuhr: { name: 'Dhuhr', color: 'var(--c-dhuhr)' },
-  asr: { name: 'Asr', color: 'var(--c-asr)' },
-  maghrib: { name: 'Maghrib', color: 'var(--c-maghrib)' },
-  isha: { name: 'Isha', color: 'var(--c-isha)' },
+  fajr: { name: 'Fajr', color: PRAYER_COLOR.fajr },
+  sunrise: { name: 'Sunrise', color: PRAYER_COLOR.sunrise },
+  dhuhr: { name: 'Dhuhr', color: PRAYER_COLOR.dhuhr },
+  asr: { name: 'Asr', color: PRAYER_COLOR.asr },
+  maghrib: { name: 'Maghrib', color: PRAYER_COLOR.maghrib },
+  isha: { name: 'Isha', color: PRAYER_COLOR.isha },
 };
 
 export function getPrayerSchedule(opts: { location?: GeoLocation; date?: Date }): PrayerSchedule {

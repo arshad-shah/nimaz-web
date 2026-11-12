@@ -8,9 +8,9 @@
  * without failing on the other. `docs/audits/2026-08-05-app-site-parity-audit.md` §8 lists
  * the app file each one was read from.
  *
- * `illustrated: true` marks the six features with hand-drawn spot art in `FeatureArt.astro`;
+ * `illustrated: true` marks the six features with hand-drawn spot art in `lib/feature-art.ts`;
  * they lead their category with the large two-column treatment and the rest render as cards.
- * Giving another feature art means adding its Lucide icon key to that component and setting
+ * Giving another feature art means adding its icon key to that file and setting
  * this flag.
  */
 
@@ -23,12 +23,12 @@ export interface FeatureCategory {
 }
 
 export interface Feature {
-  icon: string; // lucide icon name
+  icon: string; // key into `lib/icons.ts` (a Cynosure Facet icon)
   title: string;
   body: string;
   accent: 'primary' | 'gold' | 'purple';
   category: FeatureCategoryId;
-  /** Has bespoke art in FeatureArt.astro, and leads its category. */
+  /** Has bespoke art in lib/feature-art.ts, and leads its category. */
   illustrated?: true;
 }
 

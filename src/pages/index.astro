@@ -1,17 +1,29 @@
 ---
 import Base from '../layouts/Base.astro';
-import Hero from '../components/sections/Hero.astro';
-import FeatureGrid from '../components/sections/FeatureGrid.astro';
-import StatsStrip from '../components/sections/StatsStrip.astro';
-import DeveloperMessage from '../components/sections/DeveloperMessage.astro';
-import FaqSection from '../components/sections/FaqSection.astro';
+import Hero from '../components/sections/Hero.tsx';
+import FeatureGrid from '../components/sections/FeatureGrid.tsx';
+import StatsStrip from '../components/sections/StatsStrip.tsx';
+import DeveloperMessage from '../components/sections/DeveloperMessage.tsx';
+import FaqSection from '../components/islands/FaqSection.tsx';
+import PrayerWidget from '../components/islands/PrayerWidget.tsx';
 import { faqs } from '../data/faq';
+
+const faqLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
 ---
 
 <Base path="/">
-  <Hero />
-  <FeatureGrid limit={6} heading more />
+  <Hero><PrayerWidget client:load slot="widget" /></Hero>
+  <FeatureGrid limit={6} />
   <StatsStrip />
   <DeveloperMessage />
-  <FaqSection items={faqs} />
+  <FaqSection client:idle items={faqs} />
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(faqLd)} />
 </Base>

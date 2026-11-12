@@ -1,9 +1,11 @@
 ---
-import '../styles/global.css';
+import '@fontsource-variable/outfit';
+import '@fontsource-variable/plus-jakarta-sans';
+import '../styles/page.css';
+import { htmlAttributes } from '@arshad-shah/cynosure/astro';
 import Seo from '../components/layout/Seo.astro';
-import Header from '../components/layout/Header.astro';
-import Footer from '../components/layout/Footer.astro';
-import { THEME_STORAGE_KEY } from '../lib/theme';
+import Header from '../components/layout/Header.tsx';
+import Footer from '../components/layout/Footer.tsx';
 interface Props {
   title?: string;
   description?: string;
@@ -13,38 +15,20 @@ const { title, description, path } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" {...htmlAttributes({ mode: 'system' })}>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" type="image/png" href="/favicon-32.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
     <meta name="theme-color" content="#14b8a6" />
     <Seo title={title} description={description} path={path} />
-    <script is:inline define:vars={{ key: THEME_STORAGE_KEY }}>
-      try {
-        const stored = localStorage.getItem(key);
-        const dark = stored
-          ? stored === 'dark'
-          : matchMedia('(prefers-color-scheme: dark)').matches;
-        document.documentElement.dataset.theme = dark ? 'dark' : 'light';
-      } catch {
-        document.documentElement.dataset.theme = matchMedia('(prefers-color-scheme: dark)').matches
-          ? 'dark'
-          : 'light';
-      }
-    </script>
   </head>
-  <body class="min-h-dvh bg-[var(--bg)] text-[var(--text)]">
-    <a
-      href="#main"
-      class="sr-only focus:not-sr-only focus:absolute focus:m-3 focus:rounded focus:bg-[var(--surface)] focus:p-2"
-      >Skip to content</a
-    >
-    <Header />
+  <body>
+    <Header client:load path={Astro.url.pathname} />
     <main id="main"><slot /></main>
-    <Footer />
+    <Footer year={new Date().getFullYear()} />
   </body>
 </html>

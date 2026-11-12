@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { getPrayerSchedule, DEFAULT_LOCATION, type PrayerKey } from '../prayer';
+import { getPrayerSchedule, DEFAULT_LOCATION, PRAYER_COLOR, type PrayerKey } from '../prayer';
 
 describe('getPrayerSchedule', () => {
   const date = new Date('2024-04-01T09:00:00Z');
@@ -22,9 +22,9 @@ describe('getPrayerSchedule', () => {
     expect(s.prayers.filter((p) => p.isNext)).toHaveLength(1);
   });
 
-  it('assigns each prayer its accent color token', () => {
+  it('assigns each prayer its accent color', () => {
     const s = getPrayerSchedule({ location: DEFAULT_LOCATION, date });
-    expect(s.prayers.find((p) => p.key === 'fajr')?.color).toBe('var(--c-fajr)');
+    expect(s.prayers.find((p) => p.key === 'fajr')?.color).toBe(PRAYER_COLOR.fajr);
   });
 
   it('identifies the correct next prayer for the given date/time', () => {
